@@ -47,11 +47,11 @@ namespace ft
 
 		virtual ~Node<T>();
 
-		void	push(Node<T> *nd)
+		void	push(Node<T> &nd)
 		{
-			this->next = nd;
+			this->next = &nd;
 			if (nd)
-				nd->prev = this;
+				nd.prev = this;
 		}
 	};
 } // namespace ft
