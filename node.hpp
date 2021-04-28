@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/24 12:43:43 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/04/28 15:41:23 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ namespace ft
 	class Node
 	{
 	public:
-		T data;
+		T		data;
 		Node<T> *next;
 		Node<T> *prev;
 
-		Node<T>() : next(NULL), prev(NULL) {}
+		Node<T>() : data(static_cast<T>(0)), next(NULL), prev(NULL) {}
 
 		Node<T>(T inData) : data(inData), next(NULL), prev(NULL) {}
 
@@ -45,13 +45,17 @@ namespace ft
 			return *this;
 		}
 
-		virtual ~Node<T>();
+		virtual ~Node<T>(){}
 
-		void	push(Node<T> &nd)
+		void	link(Node<T> *node)
 		{
-			this->next = &nd;
-			if (nd)
-				nd.prev = this;
+			if (!node)
+				return ;
+			if (this->prev)
+				this->prev->next = node;
+			node->prev = this->prev;
+			node->next = this;
+			this->prev = node;
 		}
 	};
 } // namespace ft

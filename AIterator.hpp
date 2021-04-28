@@ -19,10 +19,8 @@ namespace ft
 	{
 	public:
 		// types aliases for node pointers
-		typedef Node<T> 		*pointer;
-		typedef Node<T>	const	*const_pointer;
-		typedef T				value_type;
-		typedef value_type		&reference;
+		typedef Node<T> 	*pointer;
+		typedef T			&type_reference;
 
 		// default constructor
 		AIterator() : ptr(NULL) {}
@@ -45,13 +43,13 @@ namespace ft
 		}
 
 		// * operator overloading
-		reference operator*() const
+		type_reference operator*() const
 		{
 			return ptr->data;
 		}
 
 		// -> operator overloading
-		reference operator->() const
+		type_reference operator->() const
 		{
 			return ptr;
 		}

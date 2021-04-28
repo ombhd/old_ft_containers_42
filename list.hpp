@@ -6,12 +6,14 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/26 12:47:49 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/04/28 16:07:13 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 #define LIST_HPP
+
+#include <limits>
 
 #include "./AIterator.hpp"
 
@@ -21,12 +23,13 @@
 #include <list>
 
 std::vector<int> vec;
-std::list<int>::iterator it;
 std::list<int> lst;
+std::list<int>::reverse_iterator it = lst.rbegin();
 
 void func()
 {
-	it--;
+	if (*it < *(it - 1))
+		std::cout << "hi" << std::endl;
 }
 //=================== end of testing =====================
 
@@ -138,23 +141,30 @@ namespace ft
 	class list
 	{
 	public:
-		typedef T						value_type;
-		typedef value_type				&reference;
-		typedef listIterator<T>			iterator;
-		typedef listReverseIterator<T>	reverse_iterator;
-		typedef typename AIterator<T>::pointer			pointer;
-		typedef typename AIterator<T>::const_pointer	const_pointer;
+		typedef size_t							size_type;
+		typedef T								value_type;
+		typedef value_type &					reference;
+		typedef value_type const &				const_reference;
+		typedef listIterator<T>					iterator;
+		typedef listIterator<T>	const			const_iterator;
+		typedef listReverseIterator<T>			reverse_iterator;
+		typedef listReverseIterator<T> const	const_reverse_iterator;
+		// typedef Node<T>*						pointer;
+		// typedef Node<T> const *					const_pointer;
 
-		list<T>() : _len(0)
+		list<T>() : _size(0)
 		{
-			_start = _end = new Node<T>();
+			_start = _end = new listIterator<T>();
 		}
 
-		list<T>(size_t n, const value_type &val = static_cast<T>(0))
+		list<T>(size_t n, const value_type &val = static_cast<T>(0)):
+		_start(new listIterator<T>()),
+		_end(this->_start),
+		_size(n)
 		{
-			_len = n;
 			for (; n > 0; --n)
 			{
+				this->push_back(val);
 			}
 		}
 
@@ -166,20 +176,102 @@ namespace ft
 
 		void push_back(value_type const &value)
 		{
-			this->_end->push(new Node<value_type>(value)); 
-			++this->_end;
+			Node<T> *holder = new Node<value_type>(value);
+			if (!this->_size++)
+				this->begin = holder;
+			this->_end->link(holder);
 		}
 
 		void push_front(value_type const &value)
 		{
-			this->_start->push(new Node<value_type>(value)); 
-			--this->_start;
+			Node<T> *holder = new Node<value_type>(value);
+			this->_end->link(holder);
+			this->_start = holder;
+			this->_size++;
+		}
+
+		// iterators
+		iterator begin()
+		{
+			return (iterator(this->_start));
+		}
+		
+		const_iterator begin() const
+		{
+			return (static_cast<const_iterator>(iterator(this->_start)));
+		}
+				
+		reverse_iterator rbegin()
+		{
+			return (reverse_iterator(this->_start));
+		}
+		
+		const_reverse_iterator rbegin() const
+		{
+			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_start)));
+		}
+
+		iterator end()
+		{
+			return (iterator(this->_end));
+		}
+		
+		const_iterator end() const
+		{
+			return (static_cast<const_iterator>(iterator(this->_end)));
+		}
+		
+		reverse_iterator rend()
+		{
+			return (reverse_iterator(this->_end));
+		}
+		
+		const_reverse_iterator rend() const
+		{
+			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_end)));
+		}
+
+		// capacity
+		bool empty() const
+		{
+			return (this->_size == 0);
+		}
+
+		size_type size() const
+		{
+			return (this->_size);
+		}
+
+		size_type max_size() const
+		{
+			// needs fix
+		}
+
+		// Element access
+		reference back()
+		{
+			return (*iterator(this->_end->prev));
+		}
+		
+		const_reference back() const
+		{
+			return (*iterator(this->_end->prev));
+		}
+		
+		reference front()
+		{
+			return (*iterator(this->_start));
+		}
+		
+		const_reference front() const
+		{
+			return (*iterator(this->_start));
 		}
 
 	private:
-		Node<T>		*_start;
-		Node<T>		*_end;
-		size_t		_len;
+		Node<T>* 	_start;
+		Node<T>*	_end;
+		size_t		_size;
 	};
 } // namespace ft
 #endif // !LIST_HPP
