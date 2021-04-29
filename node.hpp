@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/28 15:41:23 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/04/29 17:46:34 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ namespace ft
 	class Node
 	{
 	public:
+
+		typedef Node<T>*	pointer;
+		typedef Node<T>&	reference;
+		
 		T		data;
-		Node<T> *next;
-		Node<T> *prev;
+		pointer next;
+		pointer prev;
 
 		Node<T>() : data(static_cast<T>(0)), next(NULL), prev(NULL) {}
 
@@ -34,7 +38,7 @@ namespace ft
 			*this = src;
 		}
 
-		Node<T> &operator=(Node<T> const &src)
+		reference operator=(Node<T> const &src)
 		{
 			if (this != &src)
 			{
@@ -47,7 +51,7 @@ namespace ft
 
 		virtual ~Node<T>(){}
 
-		void	link(Node<T> *node)
+		void	link(pointer node)
 		{
 			if (!node)
 				return ;
@@ -56,6 +60,28 @@ namespace ft
 			node->prev = this->prev;
 			node->next = this;
 			this->prev = node;
+		}
+
+
+		pointer	unlink(void)
+		{
+			pointer ret = this;
+			if (this->next)
+				this->next->prev = this->prev;
+			if (this->prev)
+				this->prev->next = this->next;
+			return ret;
+		}
+
+		pointer	erase(void)
+		{
+			pointer ret = this->next;
+			if (this->next)
+				this->next->prev = this->prev;
+			if (this->prev)
+				this->prev->next = this->next;
+			delete this;
+			return ret;
 		}
 	};
 } // namespace ft

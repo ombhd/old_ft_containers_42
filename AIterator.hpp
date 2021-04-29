@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "node.hpp"
+#include "Node.hpp"
 
 namespace ft
 {
@@ -34,12 +34,28 @@ namespace ft
 		// destructor
 		virtual ~AIterator() {}
 
+		// -> asPointer()
+		pointer asPointer() const
+		{
+			return ptr;
+		}
+
 		// = operator overloading
 		AIterator &operator=(AIterator const &src)
 		{
 			if (this != &src)
 				ptr = src.ptr;
 			return (*this);
+		}
+
+		size_t operator-(AIterator const &src)
+		{
+			return (this->ptr - src.ptr);
+		}
+
+		size_t operator+(AIterator const &src)
+		{
+			return (this->ptr + src.ptr);
 		}
 
 		// * operator overloading
@@ -49,7 +65,7 @@ namespace ft
 		}
 
 		// -> operator overloading
-		type_reference operator->() const
+		pointer operator->() const
 		{
 			return ptr;
 		}
