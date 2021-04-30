@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/29 17:48:12 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/04/30 18:00:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ namespace ft
 		typedef listIterator<T>	const			const_iterator;
 		typedef listReverseIterator<T>			reverse_iterator;
 		typedef listReverseIterator<T> const	const_reverse_iterator;
+		typedef typename Node<T>::t_range		t_range;
 		typedef Node<T>*						pointer;
 		typedef Node<T> const *					const_pointer;
 
@@ -441,10 +442,7 @@ namespace ft
 		// entire list (1)	
 		void splice(iterator position, list& x)
 		{
-			for (iterator it = x.begin(); it != x.end(); it++)
-			{
-				position.asPointer()->link(it.asPointer());
-			}
+			position.asPointer()->link(x.begin().asPointer(), x.end().asPointer()->prev);
 			x._size = 0;
 			x._start = x._end;
 		}
@@ -452,15 +450,16 @@ namespace ft
 		// single element (2)	
 		void splice(iterator position, list& x, iterator it)
 		{
-			position.asPointer()->link(it.asPointer());
+			pointer unlinkedNode = it.asPointer()->unlink();
 			x._size--;
-			it.asPointer()->unlink();
+			position.asPointer()->link(unlinkedNode);
 		}
 		
 		// element range (3)	
 		void splice(iterator position, list& x, iterator first, iterator last)
 		{
-			
+			t_range rg = first.asPointer()->unlinkRange(last.asPointer());
+			position.asPointer()->link(first.asPointer(), last.asPointer()->prev);
 			for (iterator it = first; it != last; it++)
 			{
 				position.asPointer()->link(it.asPointer());	

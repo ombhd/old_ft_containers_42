@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node.hpp                                           :+:      :+:    :+:   */
+/*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/29 17:46:34 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/04/30 17:59:16 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 
 namespace ft
-{
+{	
 	template <class T>
 	class Node
 	{
@@ -25,6 +25,13 @@ namespace ft
 		typedef Node<T>*	pointer;
 		typedef Node<T>&	reference;
 		
+		typedef struct	s_range
+		{
+			pointer first;
+			pointer last;
+		}				t_range;
+		
+
 		T		data;
 		pointer next;
 		pointer prev;
@@ -62,6 +69,29 @@ namespace ft
 			this->prev = node;
 		}
 
+		void	link(pointer first, pointer last)
+		{
+			if (this->prev)
+				this->prev->next = first;
+			if (first)
+				first->prev = this->prev;
+			else
+			{
+				if (last)	
+					last->prev = this->prev;
+			}
+			if (last)
+			{
+				last->next = this;
+				this->prev = last;
+			}
+			else
+			{
+				if (first)
+					first->next = this;
+				this->prev = first;
+			}
+		}
 
 		pointer	unlink(void)
 		{
@@ -71,6 +101,19 @@ namespace ft
 			if (this->prev)
 				this->prev->next = this->next;
 			return ret;
+		}
+
+		range	unlinkRange(pointer last)
+		{
+			range rg;
+			
+			rg.first = this;
+			rg.last = last;
+			if (this->prev && last)
+				this->prev->next = last->next;
+			if (last->next && this)
+				last->next->prev = this->prev;
+			return rg;
 		}
 
 		pointer	erase(void)
