@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/30 17:59:16 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/05 17:54:35 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft
 			pointer last;
 		}				t_range;
 		
-
+		// Node's attributes
 		T		data;
 		pointer next;
 		pointer prev;
@@ -103,9 +103,9 @@ namespace ft
 			return ret;
 		}
 
-		range	unlinkRange(pointer last)
+		t_range	unlinkRange(pointer last)
 		{
-			range rg;
+			t_range rg;
 			
 			rg.first = this;
 			rg.last = last;

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/04/30 18:00:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/05 17:56:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -459,24 +459,13 @@ namespace ft
 		void splice(iterator position, list& x, iterator first, iterator last)
 		{
 			t_range rg = first.asPointer()->unlinkRange(last.asPointer());
+			x._size -= rg.last - rg.first + 1;
 			position.asPointer()->link(first.asPointer(), last.asPointer()->prev);
-			for (iterator it = first; it != last; it++)
-			{
-				position.asPointer()->link(it.asPointer());	
-			}
-			iterator it;
-			for ( ; first != last; )
-			{
-				it = first;
-				it++;
-				first.asPointer()->unlink();
-				first = it;
-				x._size--;
-			}
+			this->_size += rg.last - rg.first + 1;
 		}
 		
 		// remove()
-		void remove (const value_type& val)
+		void remove(const value_type& val)
 		{
 			for (iterator it = this->begin(); it != this->end(); )
 			{
