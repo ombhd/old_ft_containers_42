@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/05 17:56:00 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/05 18:11:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -537,17 +537,19 @@ namespace ft
 		// (1)	
 		void merge(list& x)
 		{
-			for (iterator it = x.begin(); it != x.end(); it++)
+			iterator xit = x.begin();
+			for (iterator it = this->begin(); it != this->end() && xit != x.end(); it++, xit++)
 			{
-				iterator ite = this->begin();
-				ite++;
-				for (; ite != this->end(); ite++)
+				if (*xit < *it)
 				{
-					if ()
+					this->insert(it, *xit);
+					x.pop_front();
+					xit++;
 				}
-				
+				else
+					it++;
 			}
-			
+			this->splice(it, x);
 		}
 		
 		// (2)	
