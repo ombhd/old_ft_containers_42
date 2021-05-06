@@ -88,6 +88,12 @@ namespace ft
 			return (ptr == src.ptr);
 		}
 		
+		// != operator overloading
+		bool operator!=(AIterator const &src) const
+		{
+			return (ptr != src.ptr);
+		}
+
 		// > operator overloading
 		bool operator>(AIterator const &src) const
 		{

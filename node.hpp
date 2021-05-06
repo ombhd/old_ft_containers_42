@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/05 17:54:35 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/06 16:14:06 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,13 @@ namespace ft
 		pointer	unlink(void)
 		{
 			pointer ret = this;
-			if (this->next)
-				this->next->prev = this->prev;
-			if (this->prev)
-				this->prev->next = this->next;
+			if (this)
+			{
+				if (this->next)
+					this->next->prev = this->prev;
+				if (this->prev)
+					this->prev->next = this->next;
+			}
 			return ret;
 		}
 
@@ -111,7 +114,7 @@ namespace ft
 			rg.last = last;
 			if (this->prev && last)
 				this->prev->next = last->next;
-			if (last->next && this)
+			if (last && last->next && this)
 				last->next->prev = this->prev;
 			return rg;
 		}
