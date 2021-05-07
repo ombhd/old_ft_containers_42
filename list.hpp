@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/06 16:14:30 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/07 02:24:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ namespace ft
 		// destructor
 		virtual ~listIterator() {}
 
+		// operator =
+		listIterator &operator=(listIterator const &src)
+		{
+			this->AIterator<T>::operator=(src);
+			return (*this);
+		}
+
 		// pre ++ operator overloading
 		listIterator &operator++()
 		{
@@ -70,11 +77,11 @@ namespace ft
 		}
 
 		// post ++ operator overloading
-		listIterator &operator++(int)
+		listIterator operator++(int)
 		{
-			listIterator iter = *this;
+			listIterator it = *this;
 			this->ptr = this->ptr->next;
-			return (iter);
+			return (it);
 		}
 
 		// pre -- operator overloading
@@ -85,7 +92,7 @@ namespace ft
 		}
 
 		// post -- operator overloading
-		listIterator &operator--(int)
+		listIterator operator--(int)
 		{
 			listIterator iter = *this;
 			this->ptr = this->ptr->prev;
@@ -121,7 +128,7 @@ namespace ft
 		}
 
 		// post ++ operator overloading
-		listReverseIterator &operator++(int)
+		listReverseIterator operator++(int)
 		{
 			listReverseIterator iter = *this;
 			this->ptr = this->ptr->prev;
@@ -136,7 +143,7 @@ namespace ft
 		}
 
 		// post -- operator overloading
-		listReverseIterator &operator--(int)
+		listReverseIterator operator--(int)
 		{
 			listReverseIterator iter = *this;
 			this->ptr = this->ptr->next;
@@ -165,10 +172,10 @@ namespace ft
 			_start = _end = new Node<T>();
 		}
 
-		list<T>(size_t n, const value_type &val = static_cast<T>(0)) : _start(new Node<T>()),
-																	   _end(this->_start),
-																	   _size(n)
+		list<T>(size_t n, const value_type &val = static_cast<T>(0))
 		{
+			_start = _end = new Node<T>();
+			this->_size = 0;
 			while (n--)
 			{
 				this->push_back(val);
@@ -184,9 +191,10 @@ namespace ft
 			{
 				this->push_back(*it);
 			}
+			return (*this);
 		}
 
-		~list<T>() { this->clear(); }
+		~list<T>() { this->clear(); delete this->_end;}
 
 		/**************
 		*  iterators  *
@@ -204,12 +212,12 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(this->_start));
+			return (reverse_iterator(this->_end->prev));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_start)));
+			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_end->prev)));
 		}
 
 		iterator end()
@@ -224,12 +232,12 @@ namespace ft
 
 		reverse_iterator rend()
 		{
-			return (reverse_iterator(this->_end));
+			return (reverse_iterator(this->_start));
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_end)));
+			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_start)));
 		}
 
 		/**************
@@ -248,6 +256,8 @@ namespace ft
 
 		size_type max_size() const
 		{
+			size_type i = 12;
+			return i;
 			// needs fix
 		}
 
@@ -257,21 +267,29 @@ namespace ft
 
 		reference back()
 		{
+			if (!this->_size)
+				return (*(iterator(this->_end)));
 			return (*(iterator(this->_end->prev)));
 		}
 
 		const_reference back() const
 		{
+			if (!this->_size)
+				return (*(iterator(this->_end)));
 			return (*(iterator(this->_end->prev)));
 		}
 
 		reference front()
 		{
+			if (!this->_size)
+				return (*(iterator(this->_end)));
 			return (*(iterator(this->_start)));
 		}
 
 		const_reference front() const
 		{
+			if (!this->_size)
+				return (*(iterator(this->_end)));
 			return (*(iterator(this->_start)));
 		}
 
@@ -281,35 +299,24 @@ namespace ft
 
 		// assign()
 		//
-		template <class InputIterator>
-		void assign(InputIterator first, InputIterator last)
-		{
-			iterator it = this->begin();
-			iterator ite = this->end();
-			for (; first != last && it != ite; first++, it++)
-			{
-				*it = *first;
-			}
-			if (it == ite)
-				this->insert(ite, first, last);
-			else
-				this->erase(it, ite);
-		}
-
 		void assign(size_type n, const value_type &val)
 		{
-			iterator it = this->begin();
-			iterator ite = this->end();
-			for (; n != 0 && it != it; --n, it++)
+			this->clear();
+			while(n--)
 			{
-				*it = val;
+				this->push_back(val);
 			}
-			if (it == ite)
-				this->insert(ite, n, val);
-			else
-				this->erase(it, ite);
 		}
 
+		void assign(iterator first, iterator last)
+		{
+			this->clear();
+			for (; first != last; first++)
+			{
+				this->push_back(*first);
+			}
+		}
+		
 		// insert()
 		// single element (1)
 		iterator insert(iterator position, const value_type &val)
@@ -331,15 +338,11 @@ namespace ft
 		}
 
 		// range (3)
-		template <class InputIterator>
-		void insert(iterator position, InputIterator first, InputIterator last)
+		void insert(iterator position, iterator first, iterator last)
 		{
-			if (first >= last)
-				return last;
-			this->size += last - first;
 			for (; first != last; first++)
 			{
-				position.asPointer()->link(new Node<value_type>(*first));
+				this->insert(position, *first);
 			}
 		}
 
@@ -352,14 +355,11 @@ namespace ft
 
 		iterator erase(iterator first, iterator last)
 		{
-			if (first >= last)
-				return last;
-			this->size -= last - first;
-			for (iterator it = first; it != last;)
+			while (first != last)
 			{
-				it = iterator((*it)->erase());
+				first = this->erase(first);
 			}
-			return it;
+			return first;
 		}
 
 		// push_front()
@@ -383,9 +383,9 @@ namespace ft
 		// push_back()
 		void push_back(value_type const &value)
 		{
-			Node<T> *holder = new Node<value_type>(value);
+			pointer holder = new Node<value_type>(value);
 			if (!this->_size++)
-				this->begin = holder;
+				this->_start = holder;
 			this->_end->link(holder);
 		}
 
@@ -395,26 +395,27 @@ namespace ft
 			if (!this->_size)
 				return;
 			this->_end->prev->erase();
-			this->_size--;
+			if (!--this->_size)
+				this->_start = this->_end;
 		}
 
 		// swap()
 		void swap(list &x)
 		{
-			iterator first1 = this->begin();
-			iterator last1 = this->end();
-			iterator first2 = x.begin();
-			iterator last2 = x.end();
-			pointer tmp;
+			// iterator first1 = this->begin();
+			// iterator last1 = this->end();
+			// iterator first2 = x.begin();
+			// iterator last2 = x.end();
+			// pointer tmp;
 
-			for (; first1 != last1 && first2 != last2; first1++, first2++)
-			{
-				tmp = first1.asPointer()->unlink();
-			}
+			// for (; first1 != last1 && first2 != last2; first1++, first2++)
+			// {
+			// 	tmp = first1.asPointer()->unlink();
+			// }
 
-			// list<value_type> tmp = *this;
-			// *this = x;
-			// x = tmp;
+			list<value_type> tmp = *this;
+			*this = x;
+			x = tmp;
 		}
 
 		// resize()
@@ -440,7 +441,7 @@ namespace ft
 		{
 			while (this->_size)
 			{
-				this->pop_back();
+				this->pop_front();
 			}
 		}
 
@@ -694,20 +695,20 @@ namespace ft
 
 		// relational operators (list)
 		// ==
-		friend bool operator==(const list<T> &lhs, const list<T> &rhs);
-		// !=
-		friend bool operator!=(const list<T> &lhs, const list<T> &rhs);
-		// <
-		friend bool operator<(const list<T> &lhs, const list<T> &rhs);
-		// <=
-		friend bool operator<=(const list<T> &lhs, const list<T> &rhs);
-		// >
-		friend bool operator>(const list<T> &lhs, const list<T> &rhs);
-		// >=
-		friend bool operator>=(const list<T> &lhs, const list<T> &rhs);
+		// friend bool operator==(const list<T> &lhs, const list<T> &rhs);
+		// // !=
+		// friend bool operator!=(const list<T> &lhs, const list<T> &rhs);
+		// // <
+		// friend bool operator<(const list<T> &lhs, const list<T> &rhs);
+		// // <=
+		// friend bool operator<=(const list<T> &lhs, const list<T> &rhs);
+		// // >
+		// friend bool operator>(const list<T> &lhs, const list<T> &rhs);
+		// // >=
+		// friend bool operator>=(const list<T> &lhs, const list<T> &rhs);
 
-		// swap(list x, list y)
-		friend void swap(list<T> &x, list<T> &y);
+		// // swap(list x, list y)
+		// friend void swap(list<T> &x, list<T> &y);
 
 	private:
 		pointer _start;

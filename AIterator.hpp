@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Node.hpp"
+#include "node.hpp"
 
 namespace ft
 {
@@ -19,8 +19,9 @@ namespace ft
 	{
 	public:
 		// types aliases for node pointers
-		typedef Node<T> 	*pointer;
-		typedef T			&type_reference;
+		typedef Node<T> 		*pointer;
+		typedef Node<T> const*	const_pointer;
+		typedef T				&type_reference;
 
 		// default constructor
 		AIterator() : ptr(NULL) {}
@@ -70,17 +71,17 @@ namespace ft
 			return ptr;
 		}
 
-		// pre ++ operator overloading
-		virtual AIterator &operator++() = 0;
+		// // pre ++ operator overloading
+		// virtual AIterator &operator++() = 0;
 
-		// post ++ operator overloading
-		virtual AIterator &operator++(int) = 0;
+		// // post ++ operator overloading
+		// virtual AIterator operator++(int) = 0;
 
-		// pre -- operator overloading
-		virtual AIterator &operator--() = 0;
+		// // pre -- operator overloading
+		// virtual AIterator &operator--() = 0;
 
-		// post -- operator overloading
-		virtual AIterator &operator--(int) = 0;
+		// // post -- operator overloading
+		// virtual AIterator operator--(int) = 0;
 
 		// == operator overloading
 		bool operator==(AIterator const &src) const
