@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   node.hpp                                           :+:      :+:    :+:   */
+/*   Node.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 02:00:35 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:40:12 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,10 @@ namespace ft
 		pointer	unlink(void)
 		{
 			pointer ret = this;
-			if (this)
-			{
-				if (this->next)
-					this->next->prev = this->prev;
-				if (this->prev)
-					this->prev->next = this->next;
-			}
+			if (this->next)
+				this->next->prev = this->prev;
+			if (this->prev)
+				this->prev->next = this->next;
 			return ret;
 		}
 
@@ -114,7 +111,7 @@ namespace ft
 			rg.last = last;
 			if (this->prev && last)
 				this->prev->next = last->next;
-			if (last && last->next && this)
+			if (last && last->next)
 				last->next->prev = this->prev;
 			return rg;
 		}

@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 02:24:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:34:54 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,22 +167,45 @@ namespace ft
 		typedef Node<T> *pointer;
 		typedef Node<T> const *const_pointer;
 
-		list<T>() : _size(0)
+		// ////////////////// debugging //////////////////
+
+		void print_list(char const *label) const
 		{
-			_start = _end = new Node<T>();
+			std::cout << "\nft::list Size: " << _size;
+			std::cout << "\nlist [" << label << "] contains:";
+			iterator it = this->begin();
+			// std::cout << "\n================> Reached here!" << *it<< std::endl;
+			for (; it != this->end(); ++it)
+			{
+				std::cout << "\t[ " << *it << " ]";
+			}
+			std::cout << std::endl;
 		}
 
-		list<T>(size_t n, const value_type &val = static_cast<T>(0))
+		// ////////////////// debugging //////////////////
+
+		list<T>() : _start(new Node<T>()),
+					_end(_start),
+					_size(0)
 		{
-			_start = _end = new Node<T>();
-			this->_size = 0;
+		}
+
+		list<T>(size_t n, const value_type &val = static_cast<T>(0)) : _start(new Node<T>()),
+																	   _end(_start),
+																	   _size(0)
+		{
 			while (n--)
 			{
 				this->push_back(val);
 			}
 		}
 
-		list<T>(const list<T> &src) { *this = src; }
+		list<T>(const list<T> &src) : _start(new Node<T>()),
+									  _end(_start),
+									  _size(0)
+		{
+			*this = src;
+		}
 
 		list<T> &operator=(const list<T> &src)
 		{
@@ -194,7 +217,11 @@ namespace ft
 			return (*this);
 		}
 
-		~list<T>() { this->clear(); delete this->_end;}
+		~list<T>()
+		{
+			this->clear();
+			delete this->_end;
+		}
 
 		/**************
 		*  iterators  *
@@ -302,7 +329,7 @@ namespace ft
 		void assign(size_type n, const value_type &val)
 		{
 			this->clear();
-			while(n--)
+			while (n--)
 			{
 				this->push_back(val);
 			}
@@ -316,24 +343,34 @@ namespace ft
 				this->push_back(*first);
 			}
 		}
-		
+
 		// insert()
 		// single element (1)
 		iterator insert(iterator position, const value_type &val)
 		{
+			bool isCoinsid = (this->_start == position.asPointer());
 			iterator resIt = position;
 			position.asPointer()->link(new Node<value_type>(val));
 			this->_size++;
+			if (isCoinsid)
+				this->_start = this->_start->prev;
 			return resIt;
 		}
 
 		// fill (2)
 		void insert(iterator position, size_type n, const value_type &val)
 		{
+			bool isCoinsid = (this->_start == position.asPointer());
+			size_type sizeToAdd = n;
 			this->_size += n;
 			while (n--)
 			{
 				position.asPointer()->link(new Node<value_type>(val));
+			}
+			if (isCoinsid)
+			while (sizeToAdd--)
+			{
+				_start = _start->prev;
 			}
 		}
 
@@ -402,21 +439,22 @@ namespace ft
 		// swap()
 		void swap(list &x)
 		{
-			// iterator first1 = this->begin();
-			// iterator last1 = this->end();
-			// iterator first2 = x.begin();
-			// iterator last2 = x.end();
-			// pointer tmp;
+			// _start
+			pointer tmp = _start;
+			_start = x._start;
+			x._start = tmp;
 
-			// for (; first1 != last1 && first2 != last2; first1++, first2++)
-			// {
-			// 	tmp = first1.asPointer()->unlink();
-			// }
-
-			list<value_type> tmp = *this;
-			*this = x;
-			x = tmp;
+			// _end
+			tmp = _end;
+			_end = x._end;
+			x._end = tmp;
+			
+			// _size
+			size_type size = x._size;
+			x._size = this->_size;
+			this->_size = size;	
 		}
+
 
 		// resize()
 		void resize(size_type n, value_type val = static_cast<value_type>(0))
@@ -426,13 +464,13 @@ namespace ft
 			if (n < this->_size)
 			{
 				iterator itp = this->begin();
-				while (n--)
-					itp++;
-				this->erase(itp, this->end());
+				size_type lenToErase = this->_size - n;
+				while (lenToErase--)
+					this->pop_back();
 			}
-			else if (n > this->_size)
+			else
 			{
-				this->insert(this->end(), n, val);
+				this->insert(this->end(), n - this->_size, val);
 			}
 		}
 
@@ -444,6 +482,7 @@ namespace ft
 				this->pop_front();
 			}
 		}
+
 
 		/***************
 		*  Operations  *
@@ -791,5 +830,10 @@ namespace ft
 		x.swap(y);
 	}
 
+	// /////////////////////// debugging
+
+	// ///////////////////////// debugging
+
 } // namespace ft
+
 #endif // !LIST_HPP

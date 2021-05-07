@@ -6,18 +6,21 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 02:42:47 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/07 16:37:36 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "list.hpp"
 #include <list>
 
+
 template < typename T >
 void print_list(ft::list<T> &lst, char const *label)
 {
 	std::cout << "\nft::list Size: " << lst.size();
 	std::cout << "\nlist [" << label <<"] contains:";
+	if (!lst.size())
+		std::cout << "\tnothing";
 	for (typename ft::list<int>::iterator it = lst.begin(); it != lst.end(); ++it)
 	{
 		std::cout << "\t[ " << *it << " ]";
@@ -30,6 +33,8 @@ void print_list(std::list<T> &ls, char const *label)
 {
 	std::cout << "\nstd::list Size: " << ls.size();
 	std::cout << "\nlist [" << label <<"] contains:";
+	if (!ls.size())
+		std::cout << "\tnothing";
 	for (typename std::list<int>::iterator it = ls.begin(); it != ls.end(); ++it)
 	{
 		std::cout << "\t[ " << *it << " ]";
@@ -217,5 +222,79 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}
 	
+	// swap()
+	{
+		std::cout << "\nswap()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		// ft::list
+		ft::list<int> first (3, 100) ;   // three ints with a value of 100
+		ft::list<int> second (5,200);  // five ints with a value of 200
+
+
+		print_list(first, "first");
+		print_list(second, "second");
+
+		first.swap(second);
+
+		print_list(first, "first");
+		print_list(second, "second");
+
+		// std::list 
+		std::list<int> stdfirst (3, 100) ;   // three ints with a value of 100
+		std::list<int> stdsecond (5,200);  // five ints with a value of 200
+
+
+		print_list(stdfirst, "stdfirst");
+		print_list(stdsecond, "stdsecond");
+
+		stdfirst.swap(stdsecond);
+
+		print_list(stdfirst, "stdfirst");
+		print_list(stdsecond, "stdsecond");
+		std::cout << "=======================================" << std::endl;
+	}
+
+	// resize()
+	{
+		std::cout << "\nresize()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		ft::list<int> mylist;
+
+		// set some initial content:
+		for (int i = 1; i < 10; ++i)
+			mylist.push_back(i);
+
+		print_list(mylist, "mylist");
+		mylist.resize(5);
+		print_list(mylist, "mylist");
+		mylist.resize(8, 100);
+		print_list(mylist, "mylist");
+		mylist.resize(12);
+		print_list(mylist, "mylist");
+
+		std::list<int> list;
+
+		// set some initial content:
+		for (int i = 1; i < 10; ++i)
+			list.push_back(i);
+
+		print_list(list, "list");
+		list.resize(5);
+		print_list(list, "list");
+		list.resize(8, 100);
+		print_list(list, "list");
+		list.resize(12);
+		print_list(list, "list");
+		std::cout << "=======================================" << std::endl;
+	}	
+	
 	return 0;
 }
+
+// // function()
+// {
+// 	std::cout << "\nfunction()" << std::endl;
+// 	std::cout << "=======================================" << std::endl;
+	
+// 	std::cout << "=======================================" << std::endl;
+// }
