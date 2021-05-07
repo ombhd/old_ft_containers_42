@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "node.hpp"
+#include "Node.hpp"
 
 namespace ft
 {
@@ -71,17 +71,11 @@ namespace ft
 			return ptr;
 		}
 
-		// // pre ++ operator overloading
-		// virtual AIterator &operator++() = 0;
+		// pre ++ operator overloading
+		virtual AIterator &operator++() = 0;
 
-		// // post ++ operator overloading
-		// virtual AIterator operator++(int) = 0;
-
-		// // pre -- operator overloading
-		// virtual AIterator &operator--() = 0;
-
-		// // post -- operator overloading
-		// virtual AIterator operator--(int) = 0;
+		// pre -- operator overloading
+		virtual AIterator &operator--() = 0;
 
 		// == operator overloading
 		bool operator==(AIterator const &src) const
