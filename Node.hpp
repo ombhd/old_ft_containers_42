@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 01:07:45 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/08 15:36:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ namespace ft
 		pointer next;
 		pointer prev;
 
-		Node<T>() : data(static_cast<T>(0)), next(NULL), prev(NULL) {}
+		Node<T>() : data(), next(NULL), prev(NULL) {}
 
 		Node<T>(T inData) : data(inData), next(NULL), prev(NULL) {}
 

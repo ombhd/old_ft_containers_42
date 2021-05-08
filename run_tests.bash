@@ -1,0 +1,40 @@
+# !/bin/bash
+
+tests="$1"
+
+if [ $# -ne 2 ] && [ $# -ne 1 ]; then
+	echo "Usage: [ ./run_tests.bash <tests_file.c> ]"
+	echo "Option: [ -r ~~ To Remove the objects and output files ]"
+	exit 1
+fi
+
+if [ $# -eq 2 ]; then
+	tests="$2"
+fi
+
+if ! ls $tests > /dev/null 2>&1 ; then
+	echo " $tests : file not found!"
+	exit 2
+fi
+
+g++ -Wextra -Werror -Wall -D NS=ft "$tests" -o ft_obj && ./ft_obj > ft_out
+g++ -Wextra -Werror -Wall -D NS=std "$tests" -o std_obj && ./std_obj > std_out
+
+sizes="$(diff ft_out std_out | grep "Size")"
+contents=$(diff ft_out std_out | grep "contains")
+
+if [ "$sizes" != "" ] || [ "$contents" != "" ]; then
+	printf "\n           ====================== FAILURE :( ========================\n\n"
+	diff ft_out std_out > differrence.txt
+	echo "==================== Check differrence.txt to see diff output ===================="
+	echo
+	exit 3
+else
+	printf "\n ========== SUCCESS ;) ==========\n\n"
+fi
+
+if [ $# -eq 2 ] && [ "$1" = "-r" ]; then
+	/bin/rm -rf ft_obj std_obj ft_out std_out > /dev/null 2>&1
+fi
+
+exit 0

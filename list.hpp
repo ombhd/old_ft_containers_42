@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 10:54:14 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/08 17:41:41 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ namespace ft
 		{
 		}
 
-		list<T>(size_t n, const value_type &val = static_cast<T>(0)) : _start(new Node<T>()),
+		list<T>(size_t n, const value_type &val = value_type()) : _start(new Node<T>()),
 																	   _end(_start),
 																	   _size(0)
 		{
@@ -392,8 +392,15 @@ namespace ft
 		// erase()
 		iterator erase(iterator position)
 		{
+			// checking if the list is empty
+			if (!this->_size)
+				return (end());
 			this->_size--;
-			return (iterator(position.asPointer()->erase()));
+			pointer pos = position.asPointer();
+			// moving head to its next if it's the case
+			if (pos == _start)
+				_start = _start->next;
+			return (iterator(pos->erase()));
 		}
 
 		iterator erase(iterator first, iterator last)
@@ -547,7 +554,9 @@ namespace ft
 		template <class Predicate>
 		void remove_if(Predicate pred)
 		{
-			for (iterator it = this->begin(); it != this->end();)
+			iterator it = this->begin();
+			iterator end = this->end();
+			while (it != end)
 			{
 				if (pred(*it) == true)
 					it = this->erase(it);
@@ -640,21 +649,6 @@ namespace ft
 			this->splice(it, x);
 		}
 
-		// reverse()
-		void reverse()
-		{
-			iterator it = this->begin();
-			iterator ite = this->end();
-
-			value_type tmp;
-			while (it < ite)
-			{
-				tmp = *it;
-				*it = *ite;
-				*ite = tmp;
-			}
-		}
-
 		// sort()
 		// (1)
 		void sort()
@@ -679,6 +673,9 @@ namespace ft
 				{
 					if (*curr > *next)
 					{
+						// if it's the case, switch to the new head before swaping nodes
+						if (curr == this->begin())
+							_start = next.asPointer();
 						// swapping nodes
 						nextReserv = next;
 						nextReserv++;
@@ -705,6 +702,7 @@ namespace ft
 
 			iterator curr;
 			iterator next;
+			iterator nextReserv;
 			pointer tmp;
 			bool isSorted;
 
@@ -719,14 +717,38 @@ namespace ft
 				{
 					if (comp(*curr, *next))
 					{
+						// if it's the case, switch to the new head before swaping nodes
+						if (curr == this->begin())
+							_start = next.asPointer();
 						// swapping nodes
+						nextReserv = next;
+						nextReserv++;
 						tmp = next.asPointer()->unlink();
 						curr.asPointer()->link(tmp);
+						next = nextReserv;
 						isSorted = false;
 					}
-					curr++;
-					next++;
+					else
+					{
+						++curr;
+						++next;
+					}
 				}
+			}
+		}
+
+		// reverse()
+		void reverse()
+		{
+			iterator it = this->begin();
+			iterator ite = this->end();
+
+			value_type tmp;
+			while (it < ite)
+			{
+				tmp = *it;
+				*it = *ite;
+				*ite = tmp;
 			}
 		}
 
