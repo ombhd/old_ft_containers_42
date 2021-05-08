@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 16:40:12 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/08 01:07:45 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ namespace ft
 				this->next->prev = this->prev;
 			if (this->prev)
 				this->prev->next = this->next;
+			this->prev = NULL;
+			this->next = NULL;
 			return ret;
 		}
 

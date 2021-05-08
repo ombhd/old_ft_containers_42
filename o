@@ -1,0 +1,24 @@
+
+ft::list Size: 4
+list [mylist1] contains:	[ 1 ]	[ 2 ]	[ 3 ]	[ 4 ]
+
+ft::list Size: 3
+list [mylist2] contains:	[ 10 ]	[ 20 ]	[ 30 ]
+
+ft::list Size: 7
+list [mylist1] contains:	[ 1 ]	[ 10 ]	[ 20 ]	[ 30 ]	[ 2 ]	[ 3 ]	[ 4 ]
+
+ft::list Size: 0
+list [mylist2] contains:	nothing
+
+ft::list Size: 6
+list [mylist1] contains:	[ 1 ]	[ 10 ]	[ 20 ]	[ 30 ]	[ 3 ]	[ 4 ]
+
+ft::list Size: 1
+list [mylist2] contains:	[ 2 ]
+
+ft::list Size: 0
+list [mylist1] contains:	nothing
+
+ft::list Size: 7
+list [mylist2] contains:	[ 30 ]	[ 3 ]	[ 4 ]	[ 1 ]	[ 10 ]	[ 20 ]	[ 2 ]

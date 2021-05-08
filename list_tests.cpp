@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 16:37:36 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/08 10:58:42 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,6 +288,92 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}	
 	
+
+	// splice()
+	{
+		
+		std::cout << "\nsplice()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		// ft::list
+		ft::list<int> mylist1, mylist2;
+		ft::list<int>::iterator it;
+
+		// set some initial values:
+		for (int i=1; i<=4; ++i)
+			mylist1.push_back(i);      // mylist1: 1 2 3 4 0
+
+		for (int i=1; i<=3; ++i)
+			mylist2.push_back(i*10);   // mylist2: 10 20 30
+
+		print_list(mylist1, "mylist1");
+		print_list(mylist2, "mylist2");
+
+		it = mylist1.begin();
+		++it;                         // points to 2
+
+		mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+										// mylist2 (empty)
+										// "it" still points to 2 (the 5th element)
+		print_list(mylist1, "mylist1");
+		print_list(mylist2, "mylist2");
+												
+		mylist2.splice (mylist2.begin(),mylist1, it);
+										// mylist1: 1 10 20 30 3 4
+										// mylist2: 2
+										// "it" is now invalid.
+		print_list(mylist1, "mylist1");
+		print_list(mylist2, "mylist2");
+		
+		it = mylist1.begin();
+		++it; ++it; ++it;           // "it" points now to 30
+		
+		mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+		mylist2.splice(mylist2.begin(), mylist1);
+										// mylist1: 30 3 4 1 10 20
+		print_list(mylist1, "mylist1");
+		print_list(mylist2, "mylist2");
+
+		// std::list
+		std::list<int> stdlist1, stdlist2;
+		std::list<int>::iterator std_it;
+
+		// set some instd_itial values:
+		for (int i=1; i<=4; ++i)
+			stdlist1.push_back(i);      // stdlist1: 1 2 3 4 0
+
+		for (int i=1; i<=3; ++i)
+			stdlist2.push_back(i*10);   // stdlist2: 10 20 30
+
+		print_list(stdlist1, "stdlist1");
+		print_list(stdlist2, "stdlist2");
+
+		std_it = stdlist1.begin();
+		++std_it;                         // points to 2
+
+		stdlist1.splice (std_it, stdlist2); // stdlist1: 1 10 20 30 2 3 4
+										// stdlist2 (empty)
+										// "std_it" still points to 2 (the 5th element)
+		print_list(stdlist1, "stdlist1");
+		print_list(stdlist2, "stdlist2");
+												
+		stdlist2.splice (stdlist2.begin(),stdlist1, std_it);
+										// stdlist1: 1 10 20 30 3 4
+										// stdlist2: 2
+										// "std_it" is now invalid.
+		print_list(stdlist1, "stdlist1");
+		print_list(stdlist2, "stdlist2");
+		
+		std_it = stdlist1.begin();
+		++std_it; ++std_it; ++std_it;           // "std_it" points now to 30
+		
+		stdlist1.splice ( stdlist1.begin(), stdlist1, std_it, stdlist1.end());
+		stdlist2.splice(stdlist2.begin(), stdlist1);
+										// stdlist1: 30 3 4 1 10 20
+		print_list(stdlist1, "mylist1");
+		print_list(stdlist2, "stdlist2");
+		std::cout << "=======================================" << std::endl;
+	}
+
 	return 0;
 }
 

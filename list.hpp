@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/07 16:34:54 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/08 10:54:14 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include <limits>
 #include <algorithm>
+
+#include <unistd.h>
+
 
 #include "./AIterator.hpp"
 
@@ -26,17 +29,17 @@
 std::vector<int> vec;
 std::list<int> lst;
 std::list<int> lst1;
-std::list<int>::iterator it = lst.begin();
+std::list<int>::iterator itex = lst.begin();
 
 void func()
 {
-	if (*it < *(it))
+	if (*itex < *(itex))
 		std::cout << "hi" << std::endl;
 	lst.assign(10, 20);
-	lst.insert(it, 2, 12);
-	lst.erase(it);
+	lst.insert(itex, 2, 12);
+	lst.erase(itex);
 	lst.resize(12);
-	lst.splice(it, lst1, it);
+	lst.splice(itex, lst1, itex);
 }
 //=================== end of testing =====================
 
@@ -173,6 +176,8 @@ namespace ft
 		{
 			std::cout << "\nft::list Size: " << _size;
 			std::cout << "\nlist [" << label << "] contains:";
+			if (!this->_size)
+				std::cout << "\tnothing";
 			iterator it = this->begin();
 			// std::cout << "\n================> Reached here!" << *it<< std::endl;
 			for (; it != this->end(); ++it)
@@ -239,12 +244,12 @@ namespace ft
 
 		reverse_iterator rbegin()
 		{
-			return (reverse_iterator(this->_end->prev));
+			return (reverse_iterator(this->_end));
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_end->prev)));
+			return (static_cast<const_reverse_iterator>(reverse_iterator(this->_end)));
 		}
 
 		iterator end()
@@ -325,7 +330,7 @@ namespace ft
 		 ***************/
 
 		// assign()
-		//
+		// (1)
 		void assign(size_type n, const value_type &val)
 		{
 			this->clear();
@@ -335,6 +340,7 @@ namespace ft
 			}
 		}
 
+		// (2)
 		void assign(iterator first, iterator last)
 		{
 			this->clear();
@@ -492,43 +498,37 @@ namespace ft
 		// entire list (1)
 		void splice(iterator position, list &x)
 		{
-			// if (position > this->end() || position < this->begin())
-			// {
-			// 	// error
-			// 	return ;
-			// }
-			this->_size += x._size;
-			position.asPointer()->link(x.begin().asPointer(), x.end().asPointer()->prev);
-			x._size = 0;
-			x._start = x._end;
+			this->splice(position, x, x.begin(), x.end());
 		}
 
 		// single element (2)
 		void splice(iterator position, list &x, iterator it)
 		{
-			// if (position > this->end() || position < this->begin())
-			// {
-			// 	// error
-			// 	return ;
-			// }
-			pointer unlinkedNode = it.asPointer()->unlink();
-			x._size--;
-			position.asPointer()->link(unlinkedNode);
-			this->_size++;
+			iterator ite = it;
+			this->splice(position, x, it, ++ite);
 		}
 
 		// element range (3)
 		void splice(iterator position, list &x, iterator first, iterator last)
 		{
-			// if (position > this->end() || position < this->begin())
-			// {
-			// 	// error
-			// 	return ;
-			// }
-			t_range rg = first.asPointer()->unlinkRange(last.asPointer()->prev);
-			x._size -= rg.last - rg.first + 1;
-			position.asPointer()->link(first.asPointer(), last.asPointer()->prev);
-			this->_size += rg.last - rg.first + 1;
+			pointer ptr;
+			pointer pos = position.asPointer();
+			
+			while (first != last)
+			{
+				ptr = (first++).asPointer();
+				// moving heads if it's the case
+				if (ptr == x._start)
+					x._start = ptr->next;
+				if (pos == this->_start)
+					this->_start = ptr;
+				// unlinking and linking node
+				ptr->unlink();
+				pos->link(ptr);
+				// sizes
+				++this->_size;
+				--x._size;
+			}
 		}
 
 		// remove()
@@ -605,7 +605,8 @@ namespace ft
 		void merge(list &x)
 		{
 			iterator xit = x.begin();
-			for (iterator it = this->begin(); it != this->end() && xit != x.end(); it++, xit++)
+			iterator it = this->begin();
+			for (; it != this->end() && xit != x.end(); it++, xit++)
 			{
 				if (*xit < *it)
 				{
@@ -624,7 +625,8 @@ namespace ft
 		void merge(list &x, Compare comp)
 		{
 			iterator xit = x.begin();
-			for (iterator it = this->begin(); it != this->end() && xit != x.end(); it++, xit++)
+			iterator it = this->begin();
+			for (; it != this->end() && xit != x.end(); it++, xit++)
 			{
 				if (comp(*xit, *it))
 				{
