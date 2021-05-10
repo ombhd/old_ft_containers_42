@@ -1,5 +1,32 @@
 # !/bin/bash
 
+compile_and_run()
+{
+	# compiling
+	obj="$1_obj"
+	tests="$2"
+	out="$1_out"
+	if ! g++ -Wextra -Werror -Wall -D NS="$1" "$tests" -o "$obj" > /dev/null 2>&1 ; then
+		echo " =================== Compiling error ================="
+		echo
+		g++ -Wextra -Werror -Wall -D NS="$1" "$tests" -o "$obj"
+		echo
+		echo " ====================================================="
+		exit 1
+	fi
+	# running
+	if ! ./"$obj" > "$out"  ; then
+		echo " =================== Running error ================="
+		echo
+		./"$obj"
+		echo
+		echo " ====================================================="
+		return 1
+	fi
+
+	return 0
+}
+
 tests="$1"
 
 if [ $# -ne 2 ] && [ $# -ne 1 ]; then
@@ -17,11 +44,19 @@ if ! ls $tests > /dev/null 2>&1 ; then
 	exit 2
 fi
 
-g++ -Wextra -Werror -Wall -D NS=ft "$tests" -o ft_obj && ./ft_obj > ft_out
-g++ -Wextra -Werror -Wall -D NS=std "$tests" -o std_obj && ./std_obj > std_out
+
+if ! compile_and_run ft "$tests"; then
+	exit 2
+fi
+
+if ! compile_and_run std "$tests"; then
+	exit 2
+fi
+
 
 sizes="$(diff ft_out std_out | grep "Size")"
 contents=$(diff ft_out std_out | grep "contains")
+
 
 if [ "$sizes" != "" ] || [ "$contents" != "" ]; then
 	printf "\n           ====================== FAILURE :( ========================\n\n"
