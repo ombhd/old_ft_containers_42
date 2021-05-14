@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 11:47:04 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 11:51:23 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,31 +369,31 @@ int main(void)
 		std::cout << "\nmerge()" << std::endl;
 		std::cout << "=======================================" << std::endl;
 		
-		NS::list<double> first, second;
+		// NS::list<double> first, second;
 
-		first.push_back (3.1);
-		first.push_back (2.2);
-		first.push_back (2.9);
+		// first.push_back (3.1);
+		// first.push_back (2.2);
+		// first.push_back (2.9);
 
-		second.push_back (3.7);
-		second.push_back (7.1);
-		second.push_back (1.4);
+		// second.push_back (3.7);
+		// second.push_back (7.1);
+		// second.push_back (1.4);
 
-		first.sort();
-		second.sort();
-		print_list(first, "first");
-		print_list(second, "second");
-		first.merge(second);
-		print_list(first, "first");
-		print_list(second, "second");
-		// (second is now empty)
+		// first.sort();
+		// second.sort();
+		// print_list(first, "first");
+		// print_list(second, "second");
+		// first.merge(second);
+		// print_list(first, "first");
+		// print_list(second, "second");
+		// // (second is now empty)
 
-		second.push_back (2.1);
-		print_list(second, "second");
+		// second.push_back (2.1);
+		// print_list(second, "second");
 
-		first.merge(second,mycomparison);
-		print_list(first, "first");
-		print_list(second, "second");
+		// first.merge(second,mycomparison);
+		// print_list(first, "first");
+		// print_list(second, "second");
 		std::cout << "=======================================" << std::endl;
 	}
 
