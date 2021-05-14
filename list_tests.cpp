@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 18:51:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 22:00:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,6 @@ int main(void)
 	}
 
 	// merge()
-	// // function()
 	{
 		std::cout << "\nmerge()" << std::endl;
 		std::cout << "=======================================" << std::endl;
@@ -397,7 +396,26 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}
 
-	
+	// reverse()
+	{
+		std::cout << "\nreverse()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		
+		NS::list<int> mylist;
+
+		for (int i=1; i<10; ++i) mylist.push_back(i);
+
+		std::cout << "\nBefore reversing : " << std::endl;
+		print_list(mylist, "mylist");
+		mylist.reverse();
+
+		std::cout << "\nAfter reversing : " << std::endl;
+		print_list(mylist, "mylist");
+
+		std::cout << "=======================================" << std::endl;
+	}
+
+
 		
 	return 0;
 }

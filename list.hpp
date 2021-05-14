@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 20:50:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 21:59:03 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -751,15 +751,18 @@ namespace ft
 		// reverse()
 		void reverse()
 		{
-			iterator it = this->begin();
-			iterator ite = this->end();
-
-			value_type tmp;
-			while (it < ite)
+			if (this->_size < 2)
+				return ;
+			pointer pos = this->_start;
+			pointer ptr;
+			// setting up the new head
+			this->_start = this->_end->prev;
+			
+			while (pos->next != this->_end)
 			{
-				tmp = *it;
-				*it = *ite;
-				*ite = tmp;
+				ptr = this->_end->prev;
+				ptr->unlink();
+				pos->link(ptr);
 			}
 		}
 
