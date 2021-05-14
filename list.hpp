@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 11:22:39 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 20:50:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -532,7 +532,7 @@ namespace ft
 				// unlinking and linking node
 				ptr->unlink();
 				pos->link(ptr);
-				// sizes
+				// resizing
 				++this->_size;
 				--x._size;
 			}
@@ -614,6 +614,8 @@ namespace ft
 		// (1)
 		void merge(list &x)
 		{
+			if (this == &x)
+				return ;
 			iterator xit = x.begin();
 			iterator xlast = x.end();
 			iterator it = this->begin();
@@ -624,31 +626,38 @@ namespace ft
 				if (*xit < *it)
 				{
 					this->splice(it, x, xit);
-					xit++;
+					xit = x.begin();
 				}
 				else
 					it++;
 			}
-			this->splice(it, x);
+			if (x._size != 0)
+				this->splice(it, x);
 		}
 
 		// (2)
 		template <class Compare>
 		void merge(list &x, Compare comp)
 		{
+			if (this == &x)
+				return ;
 			iterator xit = x.begin();
+			iterator xlast = x.end();
 			iterator it = this->begin();
-			for (; it != this->end() && xit != x.end(); it++, xit++)
+			iterator ite = this->end();
+
+			while (it != ite && xit != xlast)
 			{
 				if (comp(*xit, *it))
 				{
 					this->splice(it, x, xit);
-					xit++;
+					xit = x.begin();
 				}
 				else
 					it++;
 			}
-			this->splice(it, x);
+			if (x._size != 0)
+				this->splice(it, x);
 		}
 
 		// sort()
