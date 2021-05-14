@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 16:08:04 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 11:47:04 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #endif
 
 template <typename T>
-void print_namespcae(ft::list<T> const &l)
+void print_namespace(ft::list<T> const &l)
 {
 	if (l.size())
 		l.empty();
@@ -28,7 +28,7 @@ void print_namespcae(ft::list<T> const &l)
 }
 
 template <typename T>
-void print_namespcae(std::list<T> const &l)
+void print_namespace(std::list<T> const &l)
 {
 	if (l.size())
 		l.front();
@@ -68,10 +68,16 @@ struct is_near {
   { return (fabs(first-second)<5.0); }
 };
 
+
+// compare only integral part:
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+
+
 int main(void)
 {
 	NS::list<int> l;
-	print_namespcae(l);
+	print_namespace(l);
 	// front() and back()
 	{	
 		std::cout << "\nfront() & back()" << std::endl;
@@ -356,6 +362,42 @@ int main(void)
 
 		std::cout << "=======================================" << std::endl;
 	}
+
+	// merge()
+	// // function()
+	{
+		std::cout << "\nmerge()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		
+		NS::list<double> first, second;
+
+		first.push_back (3.1);
+		first.push_back (2.2);
+		first.push_back (2.9);
+
+		second.push_back (3.7);
+		second.push_back (7.1);
+		second.push_back (1.4);
+
+		first.sort();
+		second.sort();
+		print_list(first, "first");
+		print_list(second, "second");
+		first.merge(second);
+		print_list(first, "first");
+		print_list(second, "second");
+		// (second is now empty)
+
+		second.push_back (2.1);
+		print_list(second, "second");
+
+		first.merge(second,mycomparison);
+		print_list(first, "first");
+		print_list(second, "second");
+		std::cout << "=======================================" << std::endl;
+	}
+
+	
 		
 	return 0;
 }
@@ -365,9 +407,6 @@ int main(void)
 // 	std::cout << "\nfunction()" << std::endl;
 // 	std::cout << "=======================================" << std::endl;
 	
-// 	// ft::list
-	
-// 	// std::list
 
 // 	std::cout << "=======================================" << std::endl;
 // }

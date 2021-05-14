@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 17:41:41 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/14 11:22:39 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -592,10 +592,11 @@ namespace ft
 		void unique(BinaryPredicate binary_pred)
 		{
 			iterator it0 = this->begin();
+			iterator ite = this->end();
 			iterator it1 = it0;
 			it1++;
 
-			for (; it1 != this->end();)
+			while (it1 != ite)
 			{
 				if (binary_pred(*it1, *it0))
 				{
@@ -614,13 +615,15 @@ namespace ft
 		void merge(list &x)
 		{
 			iterator xit = x.begin();
+			iterator xlast = x.end();
 			iterator it = this->begin();
-			for (; it != this->end() && xit != x.end(); it++, xit++)
+			iterator ite = this->end();
+
+			while (it != ite && xit != xlast)
 			{
 				if (*xit < *it)
 				{
-					this->insert(it, *xit);
-					x.pop_front();
+					this->splice(it, x, xit);
 					xit++;
 				}
 				else
@@ -639,8 +642,7 @@ namespace ft
 			{
 				if (comp(*xit, *it))
 				{
-					this->insert(it, *xit);
-					x.pop_front();
+					this->splice(it, x, xit);
 					xit++;
 				}
 				else

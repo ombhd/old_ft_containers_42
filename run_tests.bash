@@ -45,14 +45,14 @@ if ! ls $tests > /dev/null 2>&1 ; then
 fi
 
 
-if ! compile_and_run ft "$tests"; then
-	exit 2
-fi
-
 if ! compile_and_run std "$tests"; then
 	exit 2
 fi
 
+
+if ! compile_and_run ft "$tests"; then
+	exit 2
+fi
 
 sizes="$(diff ft_out std_out | grep "Size")"
 contents=$(diff ft_out std_out | grep "contains")

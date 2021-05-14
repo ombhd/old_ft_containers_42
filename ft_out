@@ -1,0 +1,175 @@
+
+NAMESPACE : ft
+
+front() & back()
+=======================================
+mylist.front() is now 55
+=======================================
+
+assign()
+=======================================
+
+list Size: 7
+list [first] contains:  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]
+
+list Size: 7
+list [second] contains:  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 100 ]
+
+list Size: 3
+list [first] contains:  [ 0 ]  [ 0 ]  [ 0 ]
+Size of first: 3
+Size of second: 7
+=======================================
+
+push_front()
+=======================================
+
+list Size: 4
+list [mylist] contains:  [ 300 ]  [ 200 ]  [ 100 ]  [ 100 ]
+=======================================
+
+insert()
+=======================================
+
+list Size: 5
+list [mylist] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]
+
+list Size: 2
+list [mytmp] contains:  [ 30 ]  [ 30 ]
+
+list Size: 10
+list [mylist] contains:  [ 1 ]  [ 10 ]  [ 20 ]  [ 30 ]  [ 30 ]  [ 20 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]
+=======================================
+
+erase()
+=======================================
+
+list Size: 5
+list [mylist] contains:  [ 10 ]  [ 30 ]  [ 60 ]  [ 80 ]  [ 90 ]
+=======================================
+
+swap()
+=======================================
+
+list Size: 3
+list [first] contains:  [ 100 ]  [ 100 ]  [ 100 ]
+
+list Size: 5
+list [second] contains:  [ 200 ]  [ 200 ]  [ 200 ]  [ 200 ]  [ 200 ]
+
+list Size: 5
+list [first] contains:  [ 200 ]  [ 200 ]  [ 200 ]  [ 200 ]  [ 200 ]
+
+list Size: 3
+list [second] contains:  [ 100 ]  [ 100 ]  [ 100 ]
+=======================================
+
+resize()
+=======================================
+
+list Size: 9
+list [mylist] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  [ 6 ]  [ 7 ]  [ 8 ]  [ 9 ]
+
+list Size: 5
+list [mylist] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]
+
+list Size: 8
+list [mylist] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  [ 100 ]  [ 100 ]  [ 100 ]
+
+list Size: 12
+list [mylist] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]  [ 5 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 0 ]  [ 0 ]  [ 0 ]  [ 0 ]
+=======================================
+
+splice()
+=======================================
+
+list Size: 4
+list [mylist1] contains:  [ 1 ]  [ 2 ]  [ 3 ]  [ 4 ]
+
+list Size: 3
+list [mylist2] contains:  [ 10 ]  [ 20 ]  [ 30 ]
+
+list Size: 7
+list [mylist1] contains:  [ 1 ]  [ 10 ]  [ 20 ]  [ 30 ]  [ 2 ]  [ 3 ]  [ 4 ]
+
+list Size: 0
+list [mylist2] contains:	nothing
+
+list Size: 6
+list [mylist1] contains:  [ 1 ]  [ 10 ]  [ 20 ]  [ 30 ]  [ 3 ]  [ 4 ]
+
+list Size: 1
+list [mylist2] contains:  [ 2 ]
+
+list Size: 0
+list [mylist1] contains:	nothing
+
+list Size: 7
+list [mylist2] contains:  [ 30 ]  [ 3 ]  [ 4 ]  [ 1 ]  [ 10 ]  [ 20 ]  [ 2 ]
+=======================================
+
+remove()
+=======================================
+
+list Size: 7
+list [mylist] contains:  [ 200 ]  [ 300 ]  [ 100 ]  [ 100 ]  [ 100 ]  [ 400 ]  [ 500 ]
+
+list Size: 4
+list [mylist] contains:  [ 200 ]  [ 300 ]  [ 400 ]  [ 500 ]
+=======================================
+
+remove_if()
+=======================================
+
+list Size: 8
+list [mylist] contains:  [ 15 ]  [ 36 ]  [ 7 ]  [ 17 ]  [ 20 ]  [ 39 ]  [ 4 ]  [ 1 ]
+
+list Size: 5
+list [mylist] contains:  [ 15 ]  [ 36 ]  [ 17 ]  [ 20 ]  [ 39 ]
+
+list Size: 2
+list [mylist] contains:  [ 36 ]  [ 20 ]
+=======================================
+unique() and sort()
+=======================================
+
+list Size: 10
+list [mylist] contains:  [ 12.15 ]  [ 2.72 ]  [ 73 ]  [ 12.77 ]  [ 3.14 ]  [ 12.77 ]  [ 73.35 ]  [ 72.25 ]  [ 15.3 ]  [ 72.25 ]
+
+list Size: 10
+list [mylist] contains:  [ 2.72 ]  [ 3.14 ]  [ 12.15 ]  [ 12.77 ]  [ 12.77 ]  [ 15.3 ]  [ 72.25 ]  [ 72.25 ]  [ 73 ]  [ 73.35 ]
+
+list Size: 8
+list [mylist] contains:  [ 2.72 ]  [ 3.14 ]  [ 12.15 ]  [ 12.77 ]  [ 15.3 ]  [ 72.25 ]  [ 73 ]  [ 73.35 ]
+
+list Size: 6
+list [mylist] contains:  [ 2.72 ]  [ 3.14 ]  [ 12.15 ]  [ 15.3 ]  [ 72.25 ]  [ 73 ]
+
+list Size: 3
+list [mylist] contains:  [ 2.72 ]  [ 12.15 ]  [ 72.25 ]
+=======================================
+
+merge()
+=======================================
+
+list Size: 3
+list [first] contains:  [ 2.2 ]  [ 2.9 ]  [ 3.1 ]
+
+list Size: 3
+list [second] contains:  [ 1.4 ]  [ 3.7 ]  [ 7.1 ]
+
+list Size: 8
+list [first] contains:  [ 1.4 ]  [ 2.2 ]  [ 2.9 ]  [ 3.1 ]  [ 3.7 ]  [ 7.1 ]
+
+list Size: 18446744073709551614
+list [second] contains:
+
+list Size: 18446744073709551615
+list [second] contains:
+
+list Size: 8
+list [first] contains:  [ 1.4 ]  [ 2.2 ]  [ 2.9 ]  [ 3.1 ]  [ 3.7 ]  [ 7.1 ]
+
+list Size: 18446744073709551615
+list [second] contains:
+=======================================
