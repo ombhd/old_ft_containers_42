@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/15 18:09:15 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 22:29:20 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #define LIST_HPP
 
 #include <limits>
-#include <algorithm>
-
-#include <unistd.h>
 
 #include "Node.hpp"
-// #include "./listIterator.hpp"
+
+// #include <algorithm>
+// #include <unistd.h>
 
 //================== start of testing ====================
 #include <vector>
@@ -381,9 +380,8 @@ namespace ft
 
 		size_type max_size() const
 		{
-			size_type i = 12;
-			return i;
-			// needs fix
+			return (std::numeric_limits<long>::max() / (sizeof(Node<T>) - sizeof(pointer)));
+			// needs explanations
 		}
 
 		/********************

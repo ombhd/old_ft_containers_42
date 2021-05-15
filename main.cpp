@@ -6,11 +6,12 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/28 15:38:16 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 15:38:43 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 18:48:45 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./list.hpp"
+// #include "./list.hpp"
 #include <list>
 #include <cmath>
 #include <iostream>
@@ -62,17 +63,17 @@ int main(void)
 	// remove_if()
 	{
 
-
+		std::cout << "sizeof(NODE<T>): " << sizeof(ft::Node<char*>) << std::endl;
 		
-		ft::list<std::string> list;
-		list.push_back ("one");
-		list.push_back ("two");
-		list.push_back ("Three");
-		print_list(list, "list");
-		list.sort();
-		print_list(list, "list");
+		// ft::list<std::string> list;
+		// list.push_back ("one");
+		// list.push_back ("two");
+		// list.push_back ("Three");
+		// print_list(list, "list");
+		// list.sort();
+		// print_list(list, "list");
 	
-		ft::list<std::string>::iterator it;
+		// ft::list<std::string>::iterator it;
 	}
 	return 0;
 }

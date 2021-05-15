@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/15 18:15:43 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 22:26:33 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ bool mycomparison (double first, double second)
 
 int main(void)
 {
-	NS::list<int> l;
-	print_namespace(l);
+	NS::list<int> lstGolbal;
+	print_namespace(lstGolbal);
 	// front() and back()
 	{	
 		std::cout << "\nfront() & back()" << std::endl;
@@ -92,6 +92,19 @@ int main(void)
 		mylist.front() -= mylist.back();
 		
 		std::cout << "mylist.front() is now " << mylist.front() << '\n';
+		std::cout << "=======================================" << std::endl;
+	}
+	
+	// max_size()
+	{	
+		std::cout << "\nmax_size()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		NS::list<size_t> mylist;
+
+		mylist.push_back(77);
+		mylist.push_back(22);
+		
+		std::cout << "mylist.max_size() is: " << mylist.max_size() << '\n';
 		std::cout << "=======================================" << std::endl;
 	}
 	
