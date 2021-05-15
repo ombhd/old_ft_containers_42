@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/15 22:26:33 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 22:33:23 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ template <typename T>
 void print_namespace(std::list<T> const &l)
 {
 	if (l.size())
-		l.front();
+		l.empty();
 	std::cout << "\nNAMESPACE : std" << std::endl;
 }
 
