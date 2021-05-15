@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 22:00:00 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 18:15:43 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,6 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}	
 	
-
 	// splice()
 	{
 		
@@ -415,8 +414,70 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}
 
+	// relational operators()
+	{
+		std::cout << "\relational operators" << std::endl;
+		std::cout << "=======================================" << std::endl;
 
+		NS::list<int> a;
+		a.push_back(10);
+		a.push_back(20);
+		a.push_back(30);
+		print_list(a, "a");
 		
+		NS::list<int> b = a;
+		print_list(b, "b");
+		
+		NS::list<int> c;
+		c.push_back(30);
+		c.push_back(20);
+		c.push_back(10);
+		print_list(c, "c");
+		
+
+		if (a==b) std::cout << "\na and b are equal\n";
+		if (b!=c) std::cout << "b and c are not equal\n";
+		if (b<c) std::cout << "b is less than c\n";
+		if (c>b) std::cout << "c is greater than b\n";
+		if (a<=b) std::cout << "a is less than or equal to b\n";
+		if (a>=b) std::cout << "a is greater than or equal to b\n";
+		std::cout << "=======================================" << std::endl;
+	}
+	
+	// non-member swap()
+	{
+		std::cout << "\nnon-member swap()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		
+		NS::list<int> foo (3,100);   // three ints with a value of 100
+		NS::list<int> bar (5,200);   // five ints with a value of 200
+
+		print_list(foo, "foo");
+		print_list(bar, "bar");
+		NS::swap(foo,bar);
+		print_list(foo, "foo");
+		print_list(bar, "bar");
+		
+		std::cout << "=======================================" << std::endl;
+	}
+
+	// reverse iterators
+	{
+		std::cout << "\nreverse iterators" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		NS::list<int> l;
+		l.assign(4, 100);
+		l.push_back(1);
+		l.push_front(2);
+		NS::list<int>::reverse_iterator ite = l.rbegin();
+		NS::list<int>::reverse_iterator it = l.rend();
+		for (int i = 0; it != ite; ite++, i++)
+		{
+			std::cout << "[" << *ite << "]  ";
+		}
+		std::cout << "\n=======================================" << std::endl;
+	}
+
 	return 0;
 }
 

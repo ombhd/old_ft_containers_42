@@ -15,7 +15,7 @@ compile_and_run()
 		exit 1
 	fi
 	# running
-	if ! ./"$obj" > "$out"  ; then
+	if ! ./"$obj" | grep -v "NAMESPACE" > "$out"  ; then
 		echo " =================== Running error ================="
 		echo
 		./"$obj"
@@ -54,11 +54,10 @@ if ! compile_and_run ft "$tests"; then
 	exit 2
 fi
 
-sizes="$(diff ft_out std_out | grep "Size")"
-contents=$(diff ft_out std_out | grep "contains")
+differ="$(diff ft_out std_out)"
 
 
-if [ "$sizes" != "" ] || [ "$contents" != "" ]; then
+if [ "$differ" != "" ] ; then
 	printf "\n           ====================== FAILURE :( ========================\n\n"
 	diff ft_out std_out > differrence.txt
 	echo "==================== Check differrence.txt to see diff output ===================="

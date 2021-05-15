@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/14 21:59:03 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/15 18:09:15 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 #include <unistd.h>
 
-
-#include "./AIterator.hpp"
+#include "Node.hpp"
+// #include "./listIterator.hpp"
 
 //================== start of testing ====================
 #include <vector>
@@ -46,36 +46,86 @@ void func()
 namespace ft
 {
 	template <class T>
-	class listIterator : public AIterator<T>
+	class listIterator
 	{
-	public:
-		// types aliases for AIterator typenames
-		typedef typename AIterator<T>::pointer pointer;
-		typedef typename AIterator<T>::const_pointer const_pointer;
+		public:
+		// types aliases for node pointers
+		typedef listIterator 		&reference;
+		typedef listIterator const	&const_reference;
+		typedef Node<T> 			*pointer;
+		typedef Node<T> const*		const_pointer;
+		typedef T					&type_reference;
 
 		// default constructor
-		listIterator() : AIterator<T>() {}
+		listIterator() : ptr(NULL) {}
 
-		// default constructor
-		listIterator(pointer inPtr) : AIterator<T>(inPtr) {}
+		// parameter constructor
+		listIterator(pointer const &inPtr) : ptr(inPtr) {}
 
 		// copy constructor
-		listIterator(listIterator const &src) : AIterator<T>(src) {}
+		listIterator(listIterator const &src) { *this = src; }
 
 		// destructor
 		virtual ~listIterator() {}
 
-		// operator =
+		// -> asPointer()
+		pointer asPointer() const
+		{
+			return ptr;
+		}
+
+		// = operator overloading
 		listIterator &operator=(listIterator const &src)
 		{
-			this->AIterator<T>::operator=(src);
+			if (this != &src)
+				ptr = src.ptr;
 			return (*this);
+		}
+
+		// * operator overloading
+		virtual type_reference operator*()
+		{
+			return ptr->data;
+		}
+		
+		// * operator overloading const
+		virtual type_reference operator*() const
+		{
+			return ptr->data;
+		}
+
+		// -> operator overloading 
+		virtual pointer operator->()
+		{
+			return ptr;
+		}
+
+		// -> operator overloading const
+		virtual const_pointer operator->() const
+		{
+			return ptr;
+		}
+
+		// == operator overloading
+		bool operator==(listIterator const &src) const
+		{
+			return (ptr == src.ptr);
+		}
+
+		// != operator overloading
+		bool operator!=(listIterator const &src) const
+		{
+			return (ptr != src.ptr);
 		}
 
 		// pre ++ operator overloading
 		listIterator &operator++()
 		{
-			this->ptr = this->ptr->next;
+			if (!this->ptr->next)
+				while (ptr->prev)
+					ptr = ptr->prev;
+			else
+				this->ptr = this->ptr->next;
 			return (*this);
 		}
 
@@ -83,50 +133,93 @@ namespace ft
 		listIterator operator++(int)
 		{
 			listIterator it = *this;
-			this->ptr = this->ptr->next;
+			if (!this->ptr->next)
+				while (ptr->prev)
+					ptr = ptr->prev;
+			else
+				this->ptr = this->ptr->next;
 			return (it);
 		}
 
 		// pre -- operator overloading
 		listIterator &operator--()
 		{
-			this->ptr = this->ptr->prev;
+			if (!this->ptr->prev)
+				while (ptr->next)
+					ptr = ptr->next;
+			else
+				this->ptr = this->ptr->prev;
 			return (*this);
 		}
 
 		// post -- operator overloading
 		listIterator operator--(int)
 		{
-			listIterator iter = *this;
-			this->ptr = this->ptr->prev;
-			return (iter);
+			listIterator it = *this;
+			if (!this->ptr->prev)
+				while (ptr->next)
+					ptr = ptr->next;
+			else
+				this->ptr = this->ptr->prev;
+			return (it);
 		}
+		protected:
+			pointer ptr;
 	};
 
 	template <class T>
-	class listReverseIterator : public AIterator<T>
+	class listReverseIterator : public listIterator<T>
 	{
 	public:
 		// types aliases for AIterator typenames
-		typedef typename AIterator<T>::pointer pointer;
-		typedef typename AIterator<T>::const_pointer const_pointer;
+		typedef listReverseIterator<T> 			 			&reference;
+		typedef listReverseIterator<T> const				&const_reference;
+		typedef typename listIterator<T>::type_reference	type_reference;
+		typedef typename listIterator<T>::pointer			pointer;
+		typedef typename listIterator<T>::const_pointer		const_pointer;
 
 		// default constructor
-		listReverseIterator() : AIterator<T>() {}
+		listReverseIterator() : listIterator<T>() {}
 
 		// default constructor
-		listReverseIterator(pointer inPtr) : AIterator<T>(inPtr) {}
+		listReverseIterator(pointer inPtr) : listIterator<T>(inPtr) {}
 
 		// copy constructor
-		listReverseIterator(listReverseIterator const &src) : AIterator<T>(src) {}
+		listReverseIterator(listReverseIterator const &src) : listIterator<T>(src) {}
 
 		// destructor
 		virtual ~listReverseIterator() {}
 
-		// pre ++ operator overloading
-		listReverseIterator &operator++()
+		type_reference operator*()
 		{
-			this->ptr = this->ptr->prev;
+			listIterator<T> tmp = *this;
+			return (*--tmp);
+		}
+		
+		type_reference operator*() const 
+		{
+			listIterator<T> tmp = *this;
+			return (*--tmp);
+		}
+		
+		pointer operator->() 
+		{
+			listIterator<T> tmp = *this;
+			--tmp;
+			return (tmp.asPointer());
+		}
+		
+		const_pointer operator->() const 
+		{
+			listIterator<T> tmp = *this;
+			--tmp;
+			return (tmp.asPointer());
+		}
+
+		// pre ++ operator overloading
+		reference operator++()
+		{
+			listIterator<T>::operator--();
 			return (*this);
 		}
 
@@ -134,14 +227,14 @@ namespace ft
 		listReverseIterator operator++(int)
 		{
 			listReverseIterator iter = *this;
-			this->ptr = this->ptr->prev;
+			listIterator<T>::operator--();
 			return (iter);
 		}
 
 		// pre -- operator overloading
-		listReverseIterator &operator--()
+		reference operator--()
 		{
-			this->ptr = this->ptr->next;
+			listIterator<T>::operator++();
 			return (*this);
 		}
 
@@ -149,7 +242,7 @@ namespace ft
 		listReverseIterator operator--(int)
 		{
 			listReverseIterator iter = *this;
-			this->ptr = this->ptr->next;
+			listIterator<T>::operator++();
 			return (iter);
 		}
 	};
@@ -300,29 +393,29 @@ namespace ft
 		reference back()
 		{
 			if (!this->_size)
-				return (*(iterator(this->_end)));
-			return (*(iterator(this->_end->prev)));
+				return (this->_end->data);
+			return (this->_end->prev->data);
 		}
 
 		const_reference back() const
 		{
 			if (!this->_size)
-				return (*(iterator(this->_end)));
-			return (*(iterator(this->_end->prev)));
+				return (this->_end->data);
+			return (this->_end->prev->data);
 		}
 
 		reference front()
 		{
 			if (!this->_size)
-				return (*(iterator(this->_end)));
-			return (*(iterator(this->_start)));
+				return (this->_end->data);
+			return (this->_start->data);
 		}
 
 		const_reference front() const
 		{
 			if (!this->_size)
-				return (*(iterator(this->_end)));
-			return (*(iterator(this->_start)));
+				return (this->_end->data);
+			return (this->_start->data);
 		}
 
 		/***************
@@ -772,26 +865,26 @@ namespace ft
 
 		// relational operators (list)
 		// ==
-		// friend bool operator==(const list<T> &lhs, const list<T> &rhs);
+		// bool operator==(const list<T> &lhs, const list<T> &rhs);
 		// // !=
-		// friend bool operator!=(const list<T> &lhs, const list<T> &rhs);
+		// bool operator!=(const list<T> &lhs, const list<T> &rhs);
 		// // <
-		// friend bool operator<(const list<T> &lhs, const list<T> &rhs);
+		// bool operator<(const list<T> &lhs, const list<T> &rhs);
 		// // <=
-		// friend bool operator<=(const list<T> &lhs, const list<T> &rhs);
+		// bool operator<=(const list<T> &lhs, const list<T> &rhs);
 		// // >
-		// friend bool operator>(const list<T> &lhs, const list<T> &rhs);
+		// bool operator>(const list<T> &lhs, const list<T> &rhs);
 		// // >=
-		// friend bool operator>=(const list<T> &lhs, const list<T> &rhs);
+		// bool operator>=(const list<T> &lhs, const list<T> &rhs);
 
 		// // swap(list x, list y)
-		// friend void swap(list<T> &x, list<T> &y);
+		// void swap(list<T> &x, list<T> &y);
 
 	private:
 		pointer _start;
 		pointer _end;
 		size_t _size;
-	}; // namespace ft
+	}; // list
 
 	// (1)
 	template <class T>
