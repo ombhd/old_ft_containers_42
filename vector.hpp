@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 22:35:38 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/17 19:58:05 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/17 19:59:45 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -579,8 +579,17 @@ namespace ft
 				new (&this->_arr[pos + count]) value_type(*--last);
 			}
 		}
-		
 
+		iterator erase (iterator position)
+		{
+
+		}
+		
+		iterator erase (iterator first, iterator last)
+		{
+
+		}
+		
 		void clear()
 		{
 			while (this->_size != 0)
