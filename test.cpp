@@ -23,14 +23,15 @@ class test
 public:
 	int a;
 	int b;
-	test(/* args */){}
+	int *ptr;
+	test(/* args */):ptr(NULL){}
 	test & operator=(test const &rhs)
 	{
 		a = rhs.a;
 		b = rhs.b;
 		return *this;
 	}
-	~test(){std::cout << "destructed" << std::endl;}
+	~test(){ delete [] ptr; ptr = NULL; std::cout << "destructed" << std::endl;}
 };
 
 
@@ -64,15 +65,21 @@ int main() {
 	// {
 	// 	std::cout << "/* message */" << std::endl;
 	// }
-	test *arr = new test[12];
 	test obj;
 	obj.a = 1;
 	obj.b = 1;
 	test obj1;
 	obj1.a = 2;
 	obj1.b = 2;
-	obj = obj1;
-	arr[0]=obj;
+	// obj = obj1;
+	// arr[0]=obj;
+	test *arr = new test[2];
+	std::cout << "/* message */" << std::endl;
+	arr[0].ptr = new int[2];
+	arr[0].ptr[0] = 1337;
+	arr[0].~test();
+	arr[0].~test();
+	std::cout << "/* message */" << std::endl;
 	delete [] arr;
 	return 0;
 }

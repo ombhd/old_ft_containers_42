@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/17 13:29:50 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/17 19:44:49 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,18 +131,6 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}
 
-	// push_front()
-	{
-		std::cout << "\npush_front()" << std::endl;
-		std::cout << "=======================================" << std::endl;
-		NS::vector<int> myvect (2,100);         // two ints with a value of 100
-		myvect.push_front (200);
-		myvect.push_front (300);
-
-		print_vect(myvect, "myvect");
-		std::cout << "=======================================" << std::endl;
-	}
-
 
 	// insert()
 	{
@@ -256,52 +244,6 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}	
 	
-	// splice()
-	{
-		
-		std::cout << "\nsplice()" << std::endl;
-		std::cout << "=======================================" << std::endl;
-		// ft::vector
-		NS::vector<int> myvect1, myvect2;
-		NS::vector<int>::iterator it;
-
-		// set some initial values:
-		for (int i=1; i<=4; ++i)
-			myvect1.push_back(i);      // myvect1: 1 2 3 4 0
-
-		for (int i=1; i<=3; ++i)
-			myvect2.push_back(i*10);   // myvect2: 10 20 30
-
-		print_vect(myvect1, "myvect1");
-		print_vect(myvect2, "myvect2");
-
-		it = myvect1.begin();
-		++it;                         // points to 2
-
-		myvect1.splice (it, myvect2); // myvect1: 1 10 20 30 2 3 4
-										// myvect2 (empty)
-										// "it" still points to 2 (the 5th element)
-		print_vect(myvect1, "myvect1");
-		print_vect(myvect2, "myvect2");
-												
-		myvect2.splice (myvect2.begin(),myvect1, it);
-										// myvect1: 1 10 20 30 3 4
-										// myvect2: 2
-										// "it" is now invalid.
-		print_vect(myvect1, "myvect1");
-		print_vect(myvect2, "myvect2");
-		
-		it = myvect1.begin();
-		++it; ++it; ++it;           // "it" points now to 30
-		
-		myvect1.splice ( myvect1.begin(), myvect1, it, myvect1.end());
-		myvect2.splice(myvect2.begin(), myvect1);
-										// myvect1: 30 3 4 1 10 20
-		print_vect(myvect1, "myvect1");
-		print_vect(myvect2, "myvect2");
-
-		std::cout << "=======================================" << std::endl;
-	}
 
 	// remove()
 	{
