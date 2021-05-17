@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/15 22:29:20 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/16 23:51:59 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,7 +258,6 @@ namespace ft
 		typedef listIterator<T> const const_iterator;
 		typedef listReverseIterator<T> reverse_iterator;
 		typedef listReverseIterator<T> const const_reverse_iterator;
-		typedef typename Node<T>::t_range t_range;
 		typedef Node<T> *pointer;
 		typedef Node<T> const *const_pointer;
 

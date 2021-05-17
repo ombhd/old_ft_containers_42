@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 16:02:42 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/08 15:36:00 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/16 23:51:02 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ namespace ft
 
 		typedef Node<T>*	pointer;
 		typedef Node<T>&	reference;
-		
-		typedef struct	s_range
-		{
-			pointer first;
-			pointer last;
-		}				t_range;
 		
 		// Node's attributes
 		T		data;
@@ -69,30 +63,6 @@ namespace ft
 			this->prev = node;
 		}
 
-		void	link(pointer first, pointer last)
-		{
-			if (this->prev)
-				this->prev->next = first;
-			if (first)
-				first->prev = this->prev;
-			else
-			{
-				if (last)	
-					last->prev = this->prev;
-			}
-			if (last)
-			{
-				last->next = this;
-				this->prev = last;
-			}
-			else
-			{
-				if (first)
-					first->next = this;
-				this->prev = first;
-			}
-		}
-
 		pointer	unlink(void)
 		{
 			pointer ret = this;
@@ -103,19 +73,6 @@ namespace ft
 			this->prev = NULL;
 			this->next = NULL;
 			return ret;
-		}
-
-		t_range	unlinkRange(pointer last)
-		{
-			t_range rg;
-			
-			rg.first = this;
-			rg.last = last;
-			if (this->prev && last)
-				this->prev->next = last->next;
-			if (last && last->next)
-				last->next->prev = this->prev;
-			return rg;
 		}
 
 		pointer	erase(void)
