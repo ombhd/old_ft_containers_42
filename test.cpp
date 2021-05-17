@@ -18,31 +18,61 @@ void print_list(std::list<T> &ls, char const *label)
 	std::cout << std::endl;
 }
 
+class test
+{
+public:
+	int a;
+	int b;
+	test(/* args */){}
+	test & operator=(test const &rhs)
+	{
+		a = rhs.a;
+		b = rhs.b;
+		return *this;
+	}
+	~test(){std::cout << "destructed" << std::endl;}
+};
+
+
+
+
 int main() {
 	
-	list<int> l;
-	list<int> x;
+	// list<int> l;
+	// list<int> x;
 
-	l.push_back(4);
-	l.push_back(3);
-	l.push_back(2);
-	l.push_back(1);
+	// l.push_back(4);
+	// l.push_back(3);
+	// l.push_back(2);
+	// l.push_back(1);
 	
-	x.push_back(8);
-	x.push_back(7);
-	x.push_back(6);
-	x.push_back(5);
-	print_list(x, "x");
-	print_list(l, "l");
-	list<int>::iterator it = l.end();
-	it++;
-	std::cout << "*it = " << *it << std::endl;
-	l.splice(it, x);
-	std::cout << "*it = " << *it << std::endl;
-	print_list(l, "l");
-	print_list(x, "x");
+	// x.push_back(8);
+	// x.push_back(7);
+	// x.push_back(6);
+	// x.push_back(5);
+	// print_list(x, "x");
+	// print_list(l, "l");
+	// list<int>::iterator it = l.end();
+	// it++;
+	// std::cout << "*it = " << *it << std::endl;
+	// l.splice(it, x);
+	// std::cout << "*it = " << *it << std::endl;
+	// print_list(l, "l");
+	// print_list(x, "x");
 	
-
-
+	// for (size_t i = 0; i < 0; i++)
+	// {
+	// 	std::cout << "/* message */" << std::endl;
+	// }
+	test *arr = new test[12];
+	test obj;
+	obj.a = 1;
+	obj.b = 1;
+	test obj1;
+	obj1.a = 2;
+	obj1.b = 2;
+	obj = obj1;
+	arr[0]=obj;
+	delete [] arr;
 	return 0;
 }

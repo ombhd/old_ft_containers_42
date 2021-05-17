@@ -6,14 +6,14 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/17 00:08:11 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/17 13:29:50 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 #include <vector>
 #include <cmath>
-
+#include <iostream>
 
 #ifndef NS
 # define NS ft
