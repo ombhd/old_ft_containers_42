@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 22:35:38 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 22:48:11 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 22:58:40 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <limits>
 #include <algorithm>
 #include <stdexcept>
-
-#include <iostream>
 
 namespace ft
 {
