@@ -6,13 +6,17 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 22:35:38 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/17 19:59:45 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 19:04:30 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstddef>
+#include <cstring>
 #include <limits>
 #include <stdexcept>
+
+// debugging
+#include <iostream>
 
 namespace ft
 {
@@ -73,9 +77,10 @@ namespace ft
 
 		size_type asIndex(pointer p) const
 		{
-			if (this->ptr - p < 0L)
-				throw std::invalid_argument("vector iterator: invalid argument for asIndex");
-			return (this->ptr - p);
+			ptrdiff_t diff = this->ptr - p;
+			if (diff < 0L)
+				throw std::invalid_argument("vector iterator: invalid iterator for the current vector");
+			return (diff);
 		}
 
 		reference operator[](int val)
@@ -278,7 +283,9 @@ namespace ft
 		typedef vectorReverseIterator<value_type> reverse_iterator;
 		typedef vectorReverseIterator<value_type> const const_reverse_iterator;
 
-		vector() : _arr(new value_type()), _capacity(1), _size(0) {}
+		vector() : _arr(new value_type[1]), _capacity(1), _size(0) 
+		{
+		}
 
 		vector(size_type n, const_reference val = value_type()) : _arr(NULL),
 																  _capacity(0),
@@ -300,8 +307,8 @@ namespace ft
 			this->assign(first, last);
 		}
 
-		vector(vector const &rhs) : _arr(NULL),
-									_capacity(0),
+		vector(vector const &rhs) : _arr(new value_type[1]),
+									_capacity(1),
 									_size(rhs._size)
 		{
 			this->reserve(rhs._capacity);
@@ -317,8 +324,8 @@ namespace ft
 		vector &operator=(vector const &rhs)
 		{
 			this->clear();
-			if (this->_capacity < rhs._capacity)
-				this->reserve(rhs._capacity);
+
+			this->reserve(rhs._capacity);
 			memcpy(static_cast<void *>(this->_arr), static_cast<void *>(rhs._arr), rhs._size * sizeof(value_type));
 			this->_size = rhs._size;
 			return (*this);
@@ -375,7 +382,7 @@ namespace ft
 
 		size_type max_size(void) const
 		{
-			return (std::numeric_limits<long>::max() / sizeof(size_type));
+			return (std::numeric_limits<size_type>::max() / sizeof(size_type));
 			// needs explanations
 		}
 
@@ -386,9 +393,10 @@ namespace ft
 				for (size_type i = this->_size; i < n; ++i)
 					this->push_back(val);
 			}
-			else
+			else if (n < this->_size)
 			{
-				for (size_type i = n; i < this->_size; ++i)
+				size_type tmp = this->_size;
+				for (size_type i = n; i < tmp; ++i)
 					this->pop_back();
 			}
 		}
@@ -407,20 +415,20 @@ namespace ft
 		{
 			if (n > this->_capacity)
 			{
-				n = n > this->capacity * 2 ? n : this->_capacity * 2;
+				n = n > this->_capacity * 2 ? n : this->_capacity * 2;
 				pointer tmp = new value_type[n];
 				this->_capacity = n;
 				for (size_type i = 0; i < this->_size; i++)
 				{
 					tmp[i] = this->_arr[i];
 				}
-				delete [] this->_arr;
+				delete[] this->_arr;
 				this->_arr = tmp;
 			}
 		}
 
 		// Element Access
-	
+
 		reference operator[](size_type index)
 		{
 			return (this->_arr[index]);
@@ -465,16 +473,16 @@ namespace ft
 			return (this->_arr[this->_size - 1]);
 		}
 
-		//Modifiers 
-		
-		// range (1)	
+		//Modifiers
+
+		// range (1)
 		void assign(iterator first, iterator last)
 		{
 			ptrdiff_t diff = last - first;
 			if (diff < 0)
 				throw std::range_error("vector: invalid range");
 			else if (!diff)
-				return ;
+				return;
 			size_type count = static_cast<size_type>(diff);
 			if (count > this->_capacity)
 				this->reserve_no_copy(count);
@@ -490,11 +498,11 @@ namespace ft
 			this->_size = count;
 		}
 
-		// fill (2)	
-		void assign(size_type n, const value_type& val)
+		// fill (2)
+		void assign(size_type n, const value_type &val)
 		{
 			if (!n)
-				return ;
+				return;
 			if (n > this->_capacity)
 				this->reserve_no_copy(n);
 			for (size_type i = 0; i < n; i++)
@@ -504,7 +512,7 @@ namespace ft
 			if (this->_size > n)
 				for (size_type i = n; i < this->_size; i++)
 				{
-					this->_arr.~value_type();
+					this->_arr[i].~value_type();
 				}
 			this->_size = n;
 		}
@@ -513,39 +521,39 @@ namespace ft
 		{
 			if (this->_size + 1 > this->_capacity)
 				this->reserve(this->_size + 1);
-			new (&this->_arr[this->size++]) value_type(val);
+			new (&this->_arr[this->_size++]) value_type(val);
 		}
-		
+
 		void pop_back()
 		{
 			if (this->_size)
-				this->_arr[--this->size].~value_type();
+				this->_arr[--this->_size].~value_type();
 		}
 
-
-		// single element (1)	
-		iterator insert(iterator position, const value_type& val)
+		// single element (1)
+		iterator insert(iterator position, const value_type &val)
 		{
+			size_type pos = position.asIndex(this->_arr);
 			if (this->_size + 1 > this->_capacity)
 				this->reserve(this->_size + 1);
-			size_type pos = position.asIndex();
 			for (size_t j = this->_size; j > pos; j--)
 			{
-				new( &this->_arr[j]) value_type(this->_arr[j - 1]); 
+				new (&this->_arr[j]) value_type(this->_arr[j - 1]);
 			}
 			new (&this->_arr[pos]) value_type(val);
 			this->_size++;
+			return position;
 		}
-		
-		// fill (2)	
-		void insert(iterator position, size_type n, const value_type& val)
+
+		// fill (2)
+		void insert(iterator position, size_type n, const value_type &val)
 		{
 			if (!n)
-				return ;
+				return;
 			size_type totalRequired = this->_size + n;
+			size_type pos = position.asIndex(this->_arr);
 			if (totalRequired > this->_capacity)
 				this->reserve(totalRequired);
-			size_type pos = position.asIndex(this->_arr);
 			for (size_t j = this->_size; j > pos; j--)
 			{
 				new (&this->_arr[j - 1 + n]) value_type(this->_arr[j - 1]);
@@ -556,19 +564,19 @@ namespace ft
 				new (&this->_arr[pos + n]) value_type(val);
 			}
 		}
-		
-		// range (3)	
+
+		// range (3)
 		void insert(iterator position, iterator first, iterator last)
 		{
 			ptrdiff_t diff = last - first;
 			if (diff < 0)
 				throw std::range_error("vector: invalid range");
 			else if (!diff)
-				return ;
+				return;
 			size_type count = static_cast<size_type>(diff);
-			if (count + this->_size > this->_capacity)
-				this->reserve_no_copy(count + this->_size);
 			size_type pos = position.asIndex(this->_arr);
+			if (count + this->_size > this->_capacity)
+				this->reserve(count + this->_size);
 			for (size_t j = this->_size; j > pos; j--)
 			{
 				new (&this->_arr[j - 1 + count]) value_type(this->_arr[j - 1]);
@@ -580,42 +588,96 @@ namespace ft
 			}
 		}
 
-		iterator erase (iterator position)
+		iterator erase(iterator position)
 		{
+			if (!this->_size)
+				return position;
+			size_type i = position.asIndex(this->_arr);
 
+			if (i >= this->_size)
+				return position;
+
+			while (i < this->_size - 1)
+			{
+				this->_arr[i].~value_type();
+				new (&this->_arr[i]) value_type(this->_arr[i + 1]);
+				i++;
+			}
+
+			if (!--this->_size)
+				return this->end();
+			return position;
 		}
-		
-		iterator erase (iterator first, iterator last)
+
+		iterator erase(iterator first, iterator last)
 		{
-
+			if (!this->_size)
+				return first;
+			ptrdiff_t diff = last - first;
+			size_type pos = first.asIndex(this->_arr);
+			if (diff < 0)
+				throw std::range_error("vector: invalid range");
+			else if (!diff || pos >= this->_size)
+				return this->end();
+			size_type count = static_cast<size_type>(diff);
+			for (size_t j = pos; j < this->_size - count; j++)
+			{
+				this->_arr[j].~value_type();
+				new (&this->_arr[j]) value_type(this->_arr[j + count]);
+			}
+			for (size_t i = pos + count; i < this->_size; i++)
+			{
+				this->_arr[i].~value_type();
+			}
+			this->_size -= count;
+			return first;
 		}
-		
+
+		void swap(vector &x)
+		{
+			size_type tmp;
+			// _size
+			tmp = x._size;
+			x._size = this->_size;
+			this->_size = tmp;
+
+			// capacity
+			tmp = x._capacity;
+			x._capacity = this->_capacity;
+			this->_capacity = tmp;
+
+			// _arr
+			pointer ptr = x._arr;
+			x._arr = this->_arr;
+			this->_arr = ptr;
+		}
+
 		void clear()
 		{
 			while (this->_size != 0)
-				this->_arr[this->size - 1].~value_type();
-			delete [] this->_arr;
+				this->_arr[--this->_size].~value_type();
+			delete[] this->_arr;
 			this->_arr = new value_type[1];
 			this->_capacity = 1;
 		}
-		
-	private:
-		size_type _size;
-		size_type _capacity;
-		pointer _arr;
 
-		void	reserve_no_copy(size_type n)
+	private:
+		pointer _arr;
+		size_type _capacity;
+		size_type _size;
+
+		void reserve_no_copy(size_type n)
 		{
 			if (n > this->_capacity)
 			{
-				delete [] this->_arr;
-				n = n > this->capacity * 2 ? n : this->_capacity * 2;
+				delete[] this->_arr;
+				n = n > this->_capacity * 2 ? n : this->_capacity * 2;
 				this->_arr = new value_type[n];
 				this->_capacity = n;
 				this->_size = 0;
 			}
 		}
-	};  // class vector
+	}; // class vector
 
 	template <typename T>
 	bool operator==(vector<T> const &lhs, vector<T> const &rhs)

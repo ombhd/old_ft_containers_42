@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/15 22:33:23 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 19:12:39 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,6 @@ int main(void)
 
 		--ite;       // it points now to the second 20            ^
 
-		std::list<int> tmp (2,30);
 		NS::list<int> mytmp (2,30);
 		print_list(mytmp, "mytmp");
 		mylist.insert (ite,mytmp.begin(),mytmp.end());
