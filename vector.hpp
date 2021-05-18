@@ -6,17 +6,18 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/15 22:35:38 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 21:36:16 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 22:48:11 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstddef>
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
+
 #include <cstring>
 #include <limits>
 #include <algorithm>
 #include <stdexcept>
 
-// debugging
 #include <iostream>
 
 namespace ft
@@ -284,6 +285,8 @@ namespace ft
 		typedef vectorReverseIterator<value_type> reverse_iterator;
 		typedef vectorReverseIterator<value_type> const const_reverse_iterator;
 
+		// constructors
+
 		vector() : _arr(new value_type[1]), _capacity(1), _size(0) 
 		{
 		}
@@ -301,8 +304,8 @@ namespace ft
 			this->assign(n, val);
 		}
 
-		vector(iterator first, iterator last) : _arr(NULL),
-												_capacity(0),
+		vector(iterator first, iterator last) : _arr(new value_type[1]),
+												_capacity(1),
 												_size(0)
 		{
 			this->assign(first, last);
@@ -310,23 +313,28 @@ namespace ft
 
 		vector(vector const &rhs) : _arr(new value_type[1]),
 									_capacity(1),
-									_size(rhs._size)
+									_size(0)
 		{
-			this->reserve(rhs._capacity);
+			this->reserve_no_copy(rhs._capacity);
 			memcpy(static_cast<void *>(this->_arr), static_cast<void *>(rhs._arr), rhs._size * sizeof(value_type));
+			this->_size = rhs._size;
+			
 		}
 
+		// destructor
 		virtual ~vector()
 		{
 			this->clear();
 			delete[] this->_arr;
 		}
 
+		// = operator overloading
 		vector &operator=(vector const &rhs)
 		{
+			if (this == &rhs)
+				return *this;
 			this->clear();
-
-			this->reserve(rhs._capacity);
+			this->reserve_no_copy(rhs._capacity);
 			memcpy(static_cast<void *>(this->_arr), static_cast<void *>(rhs._arr), rhs._size * sizeof(value_type));
 			this->_size = rhs._size;
 			return (*this);
@@ -484,14 +492,15 @@ namespace ft
 			else if (!diff)
 				return;
 			size_type count = static_cast<size_type>(diff);
+			size_type old_size = this->_size;
 			if (count > this->_capacity)
 				this->reserve_no_copy(count);
 			for (size_type i = 0; i < count; i++)
 			{
 				new (&this->_arr[i]) value_type(first[i]);
 			}
-			if (this->_size > count)
-				for (size_type i = count; i < this->_size; i++)
+			if (old_size > count)
+				for (size_type i = count; i < old_size; i++)
 				{
 					this->_arr[i].~value_type();
 				}
@@ -503,14 +512,15 @@ namespace ft
 		{
 			if (!n)
 				return;
+			size_type old_size = this->_size;
 			if (n > this->_capacity)
 				this->reserve_no_copy(n);
 			for (size_type i = 0; i < n; i++)
 			{
 				new (&this->_arr[i]) value_type(val);
 			}
-			if (this->_size > n)
-				for (size_type i = n; i < this->_size; i++)
+			if (old_size > n)
+				for (size_type i = n; i < old_size; i++)
 				{
 					this->_arr[i].~value_type();
 				}
@@ -542,7 +552,7 @@ namespace ft
 			}
 			new (&this->_arr[pos]) value_type(val);
 			this->_size++;
-			return position;
+			return iterator(this->_arr + pos);
 		}
 
 		// fill (2)
@@ -740,3 +750,5 @@ namespace ft
 		x.swap(y);
 	}
 } // namespace ft
+
+#endif // !VECTOR_HPP

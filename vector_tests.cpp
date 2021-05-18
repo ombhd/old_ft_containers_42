@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 19:11:52 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 22:31:47 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,10 +268,9 @@ int main(void)
 		a.push_back(20);
 		a.push_back(30);
 		print_vector(a, "a");
-		std::cout << "/* message */" << std::endl;
 		NS::vector<int> b = a;
 		// b = a;
-		std::cout << "/* message */" << std::endl;
+
 		print_vector(b, "b");
 		
 		NS::vector<int> c;

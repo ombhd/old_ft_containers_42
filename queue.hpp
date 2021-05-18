@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.hpp                                          :+:      :+:    :+:   */
+/*   queue.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 21:49:14 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 22:24:58 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 22:52:53 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STACK_HPP
-# define STACK_HPP
+#ifndef QUEUE_HPP
+# define QUEUE_HPP
 
 # include "list.hpp"
 
@@ -19,7 +19,7 @@ namespace ft
 {
 	
 	template < typename T, typename Container = ft::list<T> >
-	class stack
+	class queue
 	{
 	public:
 		// typenames aliases
@@ -30,17 +30,17 @@ namespace ft
 		typedef T& reference;
 		typedef T const & const_reference;
 
-		// default constructor / constructor with parameter
-		stack(Container const &c=Container()): c(c) {}
+		// default constructor / constr`uctor with parameter
+		queue(Container const &c=Container()): c(c) {}
 		
 		// copy constructor
-		stack(stack const &rhs): c(rhs.c) {}
+		queue(queue const &rhs): c(rhs.c) {}
 		
 		// destructor
-		virtual ~stack() {}
+		virtual ~queue() {}
 
 		// = operator overloading
-		stack &operator=(stack const &rhs) 
+		queue &operator=(queue const &rhs) 
 		{
 			if (this != &rhs)
 				this->c = rhs.c;
@@ -79,46 +79,46 @@ namespace ft
 		}
 
 		// Non-member function overloads
-
+		// Relational operators
 		template<typename ST, typename CT>
-		friend bool operator==(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator==(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c == rhs.c);
 		}
 
 		template<typename ST, typename CT>
-		friend bool operator!=(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator!=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c != rhs.c);
 		}
 
 		template<typename ST, typename CT>
-		friend bool operator<(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator<(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c < rhs.c);
 		}
 
 		template<typename ST, typename CT>
-		friend bool operator<=(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator<=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c <= rhs.c);
 		}
 
 		template<typename ST, typename CT>
-		friend bool operator>(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator>(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c > rhs.c);
 		}
 
 		template<typename ST, typename CT>
-		friend bool operator>=(stack<ST, CT> const &lhs, stack<ST, CT> const &rhs)
+		friend bool operator>=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
 		{
 			return (lhs.c >= rhs.c);
 		}
 
 	protected:
 		Container c;
-	}; // class stack
+	}; // class queue
 }
 
-#endif
+#endif // QUEUE_HPP
