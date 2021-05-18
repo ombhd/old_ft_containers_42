@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 21:49:14 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 22:52:53 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/18 23:01:46 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,22 @@ namespace ft
 			return (this->c.size());
 		}
 
-		reference top(void)
+		reference front(void)
+		{
+			return (this->c.front());
+		}
+		
+		const_reference front(void) const
+		{
+			return (this->c.front());
+		}
+
+		reference back(void)
 		{
 			return (this->c.back());
 		}
 		
-		const_reference top(void) const
+		const_reference back(void) const
 		{
 			return (this->c.back());
 		}
@@ -75,43 +85,43 @@ namespace ft
 		
 		void pop(void)
 		{
-			this->c.pop_back();
+			this->c.pop_front();
 		}
 
 		// Non-member function overloads
 		// Relational operators
-		template<typename ST, typename CT>
-		friend bool operator==(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator==(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c == rhs.c);
 		}
 
-		template<typename ST, typename CT>
-		friend bool operator!=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator!=(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c != rhs.c);
 		}
 
-		template<typename ST, typename CT>
-		friend bool operator<(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator<(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c < rhs.c);
 		}
 
-		template<typename ST, typename CT>
-		friend bool operator<=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator<=(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c <= rhs.c);
 		}
 
-		template<typename ST, typename CT>
-		friend bool operator>(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator>(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c > rhs.c);
 		}
 
-		template<typename ST, typename CT>
-		friend bool operator>=(queue<ST, CT> const &lhs, queue<ST, CT> const &rhs)
+		template<typename QT, typename CT>
+		friend bool operator>=(queue<QT, CT> const &lhs, queue<QT, CT> const &rhs)
 		{
 			return (lhs.c >= rhs.c);
 		}
