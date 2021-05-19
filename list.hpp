@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 21:40:35 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/05/19 11:31:00 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,7 +379,7 @@ namespace ft
 
 		size_type max_size() const
 		{
-			return (std::min(std::numeric_limits<size_type>::max(), (size_type)std::numeric_limits<ptrdiff_t>::max()) / (sizeof(Node<T>) - sizeof(pointer)));
+			return (std::numeric_limits<size_type>::max() / (sizeof(Node<T>) - sizeof(pointer)));
 		}
 
 		/********************
