@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/19 11:31:00 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/06/05 11:16:38 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,7 +261,7 @@ namespace ft
 		typedef Node<T> *pointer;
 		typedef Node<T> const *const_pointer;
 
-		// ////////////////// debugging //////////////////
+		// ////////////////// debugging start //////////////////
 
 		void print_list(char const *label) const
 		{
@@ -278,8 +278,9 @@ namespace ft
 			std::cout << std::endl;
 		}
 
-		// ////////////////// debugging //////////////////
+		// ////////////////// debugging end //////////////////
 
+		// constructors
 		list<T>() : _start(new Node<T>()),
 					_end(_start),
 					_size(0)
@@ -303,6 +304,7 @@ namespace ft
 			*this = src;
 		}
 
+		// = operator overloading
 		list<T> &operator=(const list<T> &src)
 		{
 			this->clear();
@@ -313,6 +315,7 @@ namespace ft
 			return (*this);
 		}
 
+		// destructor
 		~list<T>()
 		{
 			this->clear();
