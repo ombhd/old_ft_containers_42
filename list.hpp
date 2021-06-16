@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 15:23:34 by obouykou          #+#    #+#             */
-/*   Updated: 2021/06/05 11:16:38 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/06/16 10:17:25 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ namespace ft
 		// -> operator overloading 
 		virtual pointer operator->()
 		{
-			return ptr;
+			return &ptr->data;
 		}
 
 		// -> operator overloading const
 		virtual const_pointer operator->() const
 		{
-			return ptr;
+			return &ptr->data;
 		}
 
 		// == operator overloading

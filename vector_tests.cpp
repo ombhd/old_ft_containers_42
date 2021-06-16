@@ -6,7 +6,7 @@
 /*   By: obouykou <obouykou@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/06 23:15:44 by obouykou          #+#    #+#             */
-/*   Updated: 2021/05/18 22:31:47 by obouykou         ###   ########.fr       */
+/*   Updated: 2021/06/16 10:15:29 by obouykou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,30 @@ int main(void)
 		std::cout << "=======================================" << std::endl;
 	}
 	
+	// capacity()
+	{	
+		std::cout << "\ncapacity()" << std::endl;
+		std::cout << "=======================================" << std::endl;
+		NS::vector<size_t> vec(50, 500);
+		NS::vector<size_t> myvect(4,100);
+		std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+		std::cout << "myvect.size() is: " << myvect.size() << '\n';
+
+		myvect.push_back(200);
+		std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+		std::cout << "myvect.size() is: " << myvect.size() << '\n';
+		myvect.insert(myvect.begin(), vec.begin(), vec.end());
+		
+		std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+		std::cout << "myvect.size() is: " << myvect.size() << '\n';
+
+				
+		myvect.push_back(200);
+		std::cout << "myvect.capacity() is: " << myvect.capacity() << '\n';
+		std::cout << "myvect.size() is: " << myvect.size() << '\n';
+		std::cout << "=======================================" << std::endl;
+	}
+
 	// assign()
 	{
 		std::cout << "\nassign()" << std::endl;
